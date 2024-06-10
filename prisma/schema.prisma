@@ -46,6 +46,11 @@ model User {
   createdAt                   DateTime                      @default(now())
   updatedAt                   DateTime                      @updatedAt
   Story                       Story[]
+  FriendOf                    Friends?                      @relation("friendOfId")
+  Friends                     Friends[]                     @relation("friendId")
+  BlockedBy                   BlockList[]                   @relation("isBlockedBy")
+  isBlocked                   BlockList?                    @relation("isBlocked")
+  Share                       Share?
 }
 
 model ProfileInformationBasic {
@@ -124,6 +129,7 @@ model Post {
   Comment       Comment[]
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
+  SharedBy      Share[]
 }
 
 model PostReactions {
@@ -167,6 +173,39 @@ model Story {
   content  String?
   media    String?
   privacy  privacy
+}
+
+model Friends {
+  id         String @id @default(uuid())
+  friendOf   User   @relation("friendOfId", fields: [friendOfId], references: [id])
+  friendOfId String @unique
+  friend     User   @relation("friendId", fields: [friendId], references: [id])
+  friendId   String @unique
+}
+
+model BlockList {
+  id          String @id @default(uuid())
+  blockedById User   @relation("isBlockedBy", fields: [isBlockedBy], references: [id])
+  isBlockedBy String
+  blockedId   User   @relation("isBlocked", fields: [isBlocked], references: [id])
+  isBlocked   String @unique
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  content   String
+  isRead    Boolean  @default(false)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Share {
+  id         String @id @default(uuid())
+  post       Post   @relation(fields: [postId], references: [id])
+  postId     String @unique
+  sharedUser User   @relation(fields: [sharedBy], references: [id])
+  sharedBy   String @unique
 }
 
 enum genderType {
