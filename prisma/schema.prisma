@@ -14,26 +14,189 @@ datasource db {
 }
 
 model Auth {
-  id              String   @id @default(uuid())
-  name            String
-  email           String   @unique
-  password        String
-  confirmPassword String
-  phoneNumber     Int?     @unique
-  Dob             DateTime
-  createAt        DateTime
-  updatedAt       DateTime
-  User            User?
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String
+  phoneNumber Int?     @unique
+  Dob         DateTime
+  createAt    DateTime
+  updatedAt   DateTime
+  User        User?
 }
 
 model User {
+  id                          String                        @id @default(uuid())
+  auth                        Auth                          @relation(fields: [authId], references: [id])
+  authId                      String                        @unique
+  profilePic                  String?
+  coverPhoto                  String?
+  bio                         String?
+  nickname                    String?
+  ProfileInformationBasic     ProfileInformationBasic[]
+  ProfileInformationEducation ProfileInformationEducation[]
+  ProfileInformationJobs      ProfileInformationJobs[]
+  ProfileInformationBooks     ProfileInformationBooks[]
+  ProfileInformationMovies    ProfileInformationMovies[]
+  ProfileInformationMusic     ProfileInformationMusic[]
+  Post                        Post[]
+  PostReactions               PostReactions[]
+  Comment                     Comment[]
+  commentReactions            commentReactions[]
+  createdAt                   DateTime                      @default(now())
+  updatedAt                   DateTime                      @updatedAt
+  Story                       Story[]
+}
+
+model ProfileInformationBasic {
+  id                 String       @id @default(uuid())
+  user               User         @relation(fields: [userId], references: [id])
+  userId             String       @unique
+  gender             genderType
+  relationshipStatus relationship
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+}
+
+model ProfileInformationEducation {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  degreeName  String
+  institution String
+  startedAt   DateTime
+  endedAt     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProfileInformationJobs {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @unique
+  designation String
+  company     String
+  startedAt   DateTime
+  endedAt     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProfileInformationBooks {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  bookName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProfileInformationMovies {
   id         String   @id @default(uuid())
-  auth       Auth     @relation(fields: [authId], references: [id])
-  authId     String   @unique
-  profilePic String?
-  coverPhoto String?
-  bio        String?
-  nickname   String?
-  createdAt  DateTime
-  updatedAt  DateTime
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @unique
+  movieName  String?
+  tvShowName String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model ProfileInformationMusic {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  music     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id            String          @id @default(uuid())
+  user          User            @relation(fields: [userId], references: [id])
+  userId        String          @unique
+  content       String?
+  media         String?
+  privacy       privacy
+  checkIn       String?
+  lifeEvent     String?
+  PostReactions PostReactions[]
+  Comment       Comment[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model PostReactions {
+  id        String       @id @default(uuid())
+  user      User         @relation(fields: [reactedBy], references: [id])
+  reactedBy String       @unique
+  post      Post         @relation(fields: [postId], references: [id])
+  postedBy  String       @unique
+  type      reactionType
+  postId    String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Comment {
+  id               String             @id @default(uuid())
+  user             User               @relation(fields: [commentBy], references: [id])
+  commentBy        String             @unique
+  post             Post               @relation(fields: [postId], references: [id])
+  postId           String             @unique
+  content          String
+  commentReactions commentReactions[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model commentReactions {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [reactedBy], references: [id])
+  reactedBy String   @unique
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  commentId String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Story {
+  id       String  @id @default(uuid())
+  user     User    @relation(fields: [postedBy], references: [id])
+  postedBy String  @unique
+  content  String?
+  media    String?
+  privacy  privacy
+}
+
+enum genderType {
+  MALE
+  FEMALE
+  OTHERS
+}
+
+enum relationship {
+  SINGLE
+  IN_A_RELATIONSHIP
+  MARRIED
+  WIDOWED
+  ITS_COMPLICATED
+}
+
+enum privacy {
+  PUBLIC
+  FRIENDS_OF_FRIENDS
+  CUSTOM
+  FRIENDS
+  ONLY_ME
+}
+
+enum reactionType {
+  LIKE
+  LOVE
+  HAHA
+  WOW
+  CARE
+  ANGRY
+  SAD
 }
