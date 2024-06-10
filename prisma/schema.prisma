@@ -30,8 +30,8 @@ model User {
   id         String   @id @default(uuid())
   auth       Auth     @relation(fields: [authId], references: [id])
   authId     String   @unique
-  profilePic Bytes?
-  coverPhoto Bytes?
+  profilePic String?
+  coverPhoto String?
   bio        String?
   nickname   String?
   createdAt  DateTime
