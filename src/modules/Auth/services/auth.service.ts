@@ -2,9 +2,13 @@ import bcrypt from "bcrypt";
 import AuthRepository from "../repositories/auth.repository";
 import constants from "../config/constant";
 import BadRequestError from "../../../common/errors/http400Error";
+import authRepository from "../repositories/auth.repository";
 class AuthService {
   async createAuth(user) {
-    const hashedPassword = bcrypt.hash(user.password, constants.saltValue);
+    const hashedPassword = await bcrypt.hash(
+      user.password,
+      constants.saltValue
+    );
     const fullName = user.fName + " " + user.lName;
     console.log("fullName", fullName);
     user.name = fullName;
@@ -14,6 +18,25 @@ class AuthService {
       throw new BadRequestError("Something went wrong!");
     }
     return createUser;
+  }
+  async login(email, password) {
+    const user = await AuthRepository.findUserByEmail(email);
+    if (!user) {
+      throw new BadRequestError("User not found!");
+    }
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      throw new BadRequestError("Invalid password!");
+    }
+    return user;
+  }
+  async findUserByEmail(email) {
+    const findUser = await authRepository.findUserByEmail(email);
+    if (!findUser) {
+      throw new BadRequestError("User not found!");
+    } else {
+      return findUser;
+    }
   }
 }
 export default new AuthService();

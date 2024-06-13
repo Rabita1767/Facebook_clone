@@ -3,15 +3,64 @@ import { prisma } from "../../../config/prisma";
 import authService from "../services/auth.service";
 import sendResponse from "../utils/response";
 import HttpStatus from "../../../common/httpStatus";
-import { Result } from "express-validator";
+import utility from "../utils/utility";
+let refreshToken = [];
 class AuthController {
   public async signup(req: Request, res: Response): Promise<void> {
     try {
+      const { fName, lName, password, confirmPassword, phoneNumber, Dob } =
+        req.body;
       const createUser = await authService.createAuth(req.body);
       return sendResponse(res, HttpStatus.OK, "Signup successful!", {
         result: createUser,
       });
     } catch (error) {
+      console.log(error);
+      return sendResponse(
+        res,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        "Internal Server Error!"
+      );
+    }
+  }
+  public async login(req: Request, res: Response): Promise<void> {
+    try {
+      const { email, password } = req.body;
+      const user = await authService.login(email, password);
+      const accessToken = await utility.generateAccessToken(user);
+      const refreshToken = await utility.generateRefreshToken(user);
+      return sendResponse(res, HttpStatus.OK, "Login successful!", {
+        result: user,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(
+        res,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        "Internal Server Error!"
+      );
+    }
+  }
+  public async createAccessToken(req: Request, res: Response): Promise<void> {
+    try {
+      const { email, refreshToken } = req.body;
+      const findUser = await authService.findUserByEmail(email);
+      const createAccessToken = await utility.verifyRefreshToken(
+        findUser,
+        refreshToken
+      );
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        "Create Access Token successful!",
+        {
+          result: createAccessToken,
+        }
+      );
+    } catch (error) {
+      console.log(error);
       return sendResponse(
         res,
         HttpStatus.INTERNAL_SERVER_ERROR,

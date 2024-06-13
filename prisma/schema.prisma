@@ -18,7 +18,7 @@ model Auth {
   name        String
   email       String   @unique
   password    String
-  phoneNumber Int?     @unique
+  phoneNumber String?     @unique
   Dob         DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

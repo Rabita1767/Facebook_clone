@@ -12,5 +12,12 @@ class AuthRepository {
       },
     });
   }
+  public async findUserByEmail(email: string) {
+    return await prisma.auth.findUnique({
+      where: {
+        email,
+      },
+    });
+  }
 }
 export default new AuthRepository();
