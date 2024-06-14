@@ -19,6 +19,7 @@ class AuthService {
     }
     return createUser;
   }
+  async createUser(authId) {}
   async login(email, password) {
     const user = await AuthRepository.findUserByEmail(email);
     if (!user) {

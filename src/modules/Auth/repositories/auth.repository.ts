@@ -12,6 +12,13 @@ class AuthRepository {
       },
     });
   }
+  public async createAuth(authId: string) {
+    return await prisma.user.create({
+      data: {
+        authId: authId,
+      },
+    });
+  }
   public async findUserByEmail(email: string) {
     return await prisma.auth.findUnique({
       where: {

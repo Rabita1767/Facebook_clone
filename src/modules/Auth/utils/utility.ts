@@ -13,8 +13,8 @@ class Utility {
   public async generateRefreshToken(user) {
     return await jwt.sign(user, process.env.JWT_SECRET_KEY);
   }
-  public async verifyRefreshToken(user, refreshToken) {
-    if (refreshToken != null) {
+  public async verifyRefreshToken(user, refreshToken, refreshTokens) {
+    if (refreshToken != null && refreshTokens.includes(refreshToken)) {
       jwt.verify(
         refreshToken,
         process.env.JWT_SECRET_KEY,

@@ -4,15 +4,17 @@ import authService from "../services/auth.service";
 import sendResponse from "../utils/response";
 import HttpStatus from "../../../common/httpStatus";
 import utility from "../utils/utility";
-let refreshToken = [];
+import { Prisma } from "@prisma/client";
+let refreshTokens = [];
 class AuthController {
   public async signup(req: Request, res: Response): Promise<void> {
     try {
       const { fName, lName, password, confirmPassword, phoneNumber, Dob } =
         req.body;
-      const createUser = await authService.createAuth(req.body);
+      const createAuth = await authService.createAuth(req.body);
+      const createUser = await authService.createUser(req.body);
       return sendResponse(res, HttpStatus.OK, "Signup successful!", {
-        result: createUser,
+        result: createAuth,
       });
     } catch (error) {
       console.log(error);
@@ -29,10 +31,27 @@ class AuthController {
       const user = await authService.login(email, password);
       const accessToken = await utility.generateAccessToken(user);
       const refreshToken = await utility.generateRefreshToken(user);
+      refreshTokens.push(refreshToken);
       return sendResponse(res, HttpStatus.OK, "Login successful!", {
         result: user,
         accessToken: accessToken,
         refreshToken: refreshToken,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(
+        res,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        "Internal Server Error!"
+      );
+    }
+  }
+  public async logout(req: Request, res: Response): Promise<void> {
+    try {
+      const { refreshToken } = req.body;
+      refreshTokens = refreshTokens.filter((token) => token != refreshToken);
+      return sendResponse(res, HttpStatus.OK, "Logout successful!", {
+        result: refreshToken,
       });
     } catch (error) {
       console.log(error);
@@ -49,7 +68,8 @@ class AuthController {
       const findUser = await authService.findUserByEmail(email);
       const createAccessToken = await utility.verifyRefreshToken(
         findUser,
-        refreshToken
+        refreshToken,
+        refreshTokens
       );
       return sendResponse(
         res,
