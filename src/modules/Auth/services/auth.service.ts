@@ -19,7 +19,7 @@ class AuthService {
     }
     return createUser;
   }
-  async createUser(authId) {}
+  async createUser(authId) { }
   async login(email, password) {
     const user = await AuthRepository.findUserByEmail(email);
     if (!user) {
@@ -38,6 +38,13 @@ class AuthService {
     } else {
       return findUser;
     }
+  }
+  async findUserById(userId) {
+    const findUser = await authRepository.findUserById(userId);
+    if (!findUser) {
+      throw new BadRequestError("User not found!");
+    }
+    return findUser;
   }
 }
 export default new AuthService();

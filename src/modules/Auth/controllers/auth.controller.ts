@@ -88,5 +88,20 @@ class AuthController {
       );
     }
   }
+  public async profilePictureUpload(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.body;
+      const findUser = await authService.findUserById(req.body);
+      console.log("findUser", findUser);
+      console.log("file", req.file);
+    } catch (error) {
+      console.log(error);
+      return sendResponse(
+        res,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        "Internal Server Error!"
+      );
+    }
+  }
 }
 export default new AuthController();

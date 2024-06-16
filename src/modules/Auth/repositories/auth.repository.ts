@@ -26,5 +26,8 @@ class AuthRepository {
       },
     });
   }
+  public async findUserById(userId) {
+    return await prisma.user.findUnique(userId);
+  }
 }
 export default new AuthRepository();
