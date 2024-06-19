@@ -1,7 +1,8 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../../config/prisma";
 class AuthRepository {
-  public async createUser(user: Prisma.AuthCreateInput) {
+  public async createAuth(user: Prisma.AuthCreateInput) {
+    console.log("name", user.name);
     return await prisma.auth.create({
       data: {
         name: user.name,
@@ -12,7 +13,7 @@ class AuthRepository {
       },
     });
   }
-  public async createAuth(authId: string) {
+  public async createUser(authId: string) {
     return await prisma.user.create({
       data: {
         authId: authId,
@@ -22,12 +23,27 @@ class AuthRepository {
   public async findUserByEmail(email: string) {
     return await prisma.auth.findUnique({
       where: {
-        email,
+        email: email,
       },
     });
   }
   public async findUserById(userId) {
-    return await prisma.user.findUnique(userId);
+    return await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+  }
+
+  public async saveProfilePicture(user, file) {
+    return await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        profilePic: file.filename,
+      },
+    });
   }
 }
 export default new AuthRepository();

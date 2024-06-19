@@ -7,5 +7,9 @@ const routes = express();
 routes.post("/signup", authValidator.signUp, authController.signup);
 routes.post("/login", authController.login);
 routes.post("/createAccessToken", authController.createAccessToken);
-routes.post("/profilePictureUpload", uploadFile.single("image"), authController.profilePictureUpload);
+routes.post(
+  "/profilePictureUpload",
+  uploadFile.single("image"),
+  authController.profilePictureUpload
+);
 export default routes;

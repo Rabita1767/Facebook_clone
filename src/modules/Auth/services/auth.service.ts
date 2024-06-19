@@ -13,13 +13,15 @@ class AuthService {
     console.log("fullName", fullName);
     user.name = fullName;
     user.password = hashedPassword;
-    const createUser = await AuthRepository.createUser(user);
-    if (!createUser) {
+    const createAuth = await AuthRepository.createAuth(user);
+    if (!createAuth) {
       throw new BadRequestError("Something went wrong!");
     }
-    return createUser;
+    return createAuth;
   }
-  async createUser(authId) { }
+  async createUser(authId) {
+    const createUser = await AuthRepository.createUser(authId);
+  }
   async login(email, password) {
     const user = await AuthRepository.findUserByEmail(email);
     if (!user) {
@@ -31,6 +33,13 @@ class AuthService {
     }
     return user;
   }
+  async findUserById(userId) {
+    const findUser = await authRepository.findUserById(userId);
+    if (!findUser) {
+      throw new BadRequestError("User not found!");
+    }
+    return findUser;
+  }
   async findUserByEmail(email) {
     const findUser = await authRepository.findUserByEmail(email);
     if (!findUser) {
@@ -39,12 +48,15 @@ class AuthService {
       return findUser;
     }
   }
-  async findUserById(userId) {
-    const findUser = await authRepository.findUserById(userId);
-    if (!findUser) {
-      throw new BadRequestError("User not found!");
+  async saveProfilePicture(user, file) {
+    const saveProfilePicture = await authRepository.saveProfilePicture(
+      user,
+      file
+    );
+    if (!saveProfilePicture) {
+      throw new BadRequestError("Something went wrong!");
     }
-    return findUser;
+    return saveProfilePicture;
   }
 }
 export default new AuthService();

@@ -12,17 +12,14 @@ class AuthController {
       const { fName, lName, password, confirmPassword, phoneNumber, Dob } =
         req.body;
       const createAuth = await authService.createAuth(req.body);
-      const createUser = await authService.createUser(req.body);
+      console.log("hello", createAuth.id);
+      const createUser = await authService.createUser(createAuth.id);
       return sendResponse(res, HttpStatus.OK, "Signup successful!", {
         result: createAuth,
       });
     } catch (error) {
       console.log(error);
-      return sendResponse(
-        res,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        "Internal Server Error!"
-      );
+      return sendResponse(res, error.statusCode, error);
     }
   }
   public async login(req: Request, res: Response): Promise<void> {
@@ -88,19 +85,24 @@ class AuthController {
       );
     }
   }
-  public async profilePictureUpload(req: Request, res: Response): Promise<void> {
+  public async profilePictureUpload(
+    req: Request,
+    res: Response
+  ): Promise<void> {
     try {
       const { userId } = req.body;
-      const findUser = await authService.findUserById(req.body);
-      console.log("findUser", findUser);
-      console.log("file", req.file);
+      const findUser = await authService.findUserById(userId);
+      const saveProfilePicture = await authService.saveProfilePicture(
+        findUser,
+        req.file
+      );
+      console.log("iame", req.file);
+      return sendResponse(res, HttpStatus.OK, "Profile Picture Uploaded!", {
+        result: saveProfilePicture,
+      });
     } catch (error) {
       console.log(error);
-      return sendResponse(
-        res,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        "Internal Server Error!"
-      );
+      return sendResponse(res, error.statusCode, error);
     }
   }
 }
