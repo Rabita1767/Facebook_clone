@@ -81,6 +81,11 @@ class AuthService {
     } else if (payload.relationshipStatus) {
       updateParam.relationshipStatus = payload.relationshipStatus;
     }
+    const updateProfileInfo = await authRepository.updateProfileInfo(
+      updateParam,
+      payload.userId
+    );
+    return updateProfileInfo;
   }
 }
 export default new AuthService();
