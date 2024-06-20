@@ -12,4 +12,11 @@ routes.post(
   uploadFile.single("image"),
   authController.profilePictureUpload
 );
+routes.post(
+  "/coverPhotoUpload",
+  uploadFile.single("image"),
+  authController.coverPhotoUpload
+);
+routes.post("/createProfileInfo", authController.createProfileInfo);
+routes.put("/updateProfileInfo", authController.updateProfileInfo);
 export default routes;

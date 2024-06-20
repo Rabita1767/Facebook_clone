@@ -36,11 +36,7 @@ class AuthController {
       });
     } catch (error) {
       console.log(error);
-      return sendResponse(
-        res,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        "Internal Server Error!"
-      );
+      return sendResponse(res, error.statusCode, error);
     }
   }
   public async logout(req: Request, res: Response): Promise<void> {
@@ -52,11 +48,7 @@ class AuthController {
       });
     } catch (error) {
       console.log(error);
-      return sendResponse(
-        res,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        "Internal Server Error!"
-      );
+      return sendResponse(res, error.statusCode, error);
     }
   }
   public async createAccessToken(req: Request, res: Response): Promise<void> {
@@ -100,6 +92,47 @@ class AuthController {
       return sendResponse(res, HttpStatus.OK, "Profile Picture Uploaded!", {
         result: saveProfilePicture,
       });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async coverPhotoUpload(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.body;
+      console.log("controller", userId);
+      const findUser = await authService.findUserById(userId);
+      const saveCoverPhoto = await authService.saveCoverPhoto(
+        findUser,
+        req.file
+      );
+      console.log("iame", req.file);
+      return sendResponse(res, HttpStatus.OK, "Cover Photo Uploaded!", {
+        result: saveCoverPhoto,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async createProfileInfo(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId, gender, relationshipStatus } = req.body;
+      const findUser = await authService.findUserById(userId);
+      const createProfileInfo = await authService.createProfileInfo(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile Info Created!", {
+        result: createProfileInfo,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async updateProfileInfo(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId, gender, relationshipStatus } = req.body;
+      const findUser = await authService.findUserById(userId);
+      const updateProfileInfo = await authService.updateProfileInfo(req.body);
     } catch (error) {
       console.log(error);
       return sendResponse(res, error.statusCode, error);

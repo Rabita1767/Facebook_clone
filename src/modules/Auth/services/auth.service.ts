@@ -3,6 +3,7 @@ import AuthRepository from "../repositories/auth.repository";
 import constants from "../config/constant";
 import BadRequestError from "../../../common/errors/http400Error";
 import authRepository from "../repositories/auth.repository";
+import IUPDATEPARAMS from "../types/auth.interface";
 class AuthService {
   async createAuth(user) {
     const hashedPassword = await bcrypt.hash(
@@ -34,6 +35,7 @@ class AuthService {
     return user;
   }
   async findUserById(userId) {
+    console.log("user", userId);
     const findUser = await authRepository.findUserById(userId);
     if (!findUser) {
       throw new BadRequestError("User not found!");
@@ -57,6 +59,28 @@ class AuthService {
       throw new BadRequestError("Something went wrong!");
     }
     return saveProfilePicture;
+  }
+  async saveCoverPhoto(user, file) {
+    const saveCoverPhoto = await authRepository.saveCoverPhoto(user, file);
+    if (!saveCoverPhoto) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return saveCoverPhoto;
+  }
+  async createProfileInfo(payload) {
+    const createProfileInfo = await authRepository.createProfileInfo(payload);
+    if (!createProfileInfo) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return createProfileInfo;
+  }
+  async updateProfileInfo(payload) {
+    const updateParam: IUPDATEPARAMS = {};
+    if (payload.gender) {
+      updateParam.gender = payload.gender;
+    } else if (payload.relationshipStatus) {
+      updateParam.relationshipStatus = payload.relationshipStatus;
+    }
   }
 }
 export default new AuthService();

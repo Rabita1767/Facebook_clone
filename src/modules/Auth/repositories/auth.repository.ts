@@ -28,6 +28,7 @@ class AuthRepository {
     });
   }
   public async findUserById(userId) {
+    console.log("repo", userId);
     return await prisma.user.findUnique({
       where: {
         id: userId,
@@ -43,6 +44,33 @@ class AuthRepository {
       data: {
         profilePic: file.filename,
       },
+    });
+  }
+  public async saveCoverPhoto(user, file) {
+    return await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        coverPhoto: file.filename,
+      },
+    });
+  }
+  public async createProfileInfo(payload) {
+    return await prisma.profileInformationBasic.create({
+      data: {
+        gender: payload.gender,
+        relationshipStatus: payload.relationshipStatus,
+        userId: payload.userId,
+      },
+    });
+  }
+  public async updateProfileInfo(updateParam, userId) {
+    return await prisma.profileInformationBasic.update({
+      where: {
+        userId: userId,
+      },
+      data: updateParam,
     });
   }
 }
