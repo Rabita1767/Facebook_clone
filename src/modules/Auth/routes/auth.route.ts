@@ -35,4 +35,24 @@ routes.post(
   "/createProfileInformationJobs",
   authController.createProfileInformationJobs
 );
+routes.put(
+  "/updateProfileInformationJobs",
+  authController.updateProfileInformationJobs
+);
+routes.post(
+  "/createProfileInformationBooks",
+  authController.createProfileInformationBooks
+);
+routes.put(
+  "/updateProfileInformationMovies",
+  authController.updateProfileInformationMovies
+);
+routes.post(
+  "/createProfileInformationMusic",
+  authController.createProfileInformationMusic
+);
+routes.put(
+  "/updateProfileInformationMusic",
+  authController.updateProfileInformationMusic
+);
 export default routes;

@@ -112,5 +112,37 @@ class AuthRepository {
       data: updateParam,
     });
   }
+  public async createProfileInformationBooks(payload) {
+    return await prisma.profileInformationBooks.create({
+      data: {
+        userId: payload.userId,
+        bookName: payload.bookName,
+      },
+    });
+  }
+  public async updateProfileInformationMovies(updateParam, userId) {
+    return await prisma.profileInformationMovies.update({
+      where: {
+        userId: userId,
+      },
+      data: updateParam,
+    });
+  }
+  public async createProfileInformationMusic(payload) {
+    return await prisma.profileInformationMusic.create({
+      data: {
+        userId: payload.userId,
+        music: payload.music,
+      },
+    });
+  }
+  public async updateProfileInformationMusic(updateParam, userId) {
+    return await prisma.profileInformationMusic.update({
+      where: {
+        userId: userId,
+      },
+      data: updateParam,
+    });
+  }
 }
 export default new AuthRepository();

@@ -14,3 +14,10 @@ export default interface IJOBSUPDATEPARAMS {
   startedAt?: string;
   endedAt?: string;
 }
+export default interface IMOVIESUPDATEPARAMS {
+  movieName?: string;
+  tvShowName?: string;
+}
+export default interface IMUSICUPDATEPARAMS {
+  music?: string;
+}

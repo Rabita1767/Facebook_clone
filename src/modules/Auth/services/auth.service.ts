@@ -6,6 +6,8 @@ import authRepository from "../repositories/auth.repository";
 import IUPDATEPARAMS from "../types/auth.interface";
 import IEDUCATIONUPDATEPARAMS from "../types/auth.interface";
 import IJOBSUPDATEPARAMS from "../types/auth.interface";
+import IMOVIESUPDATEPARAMS from "../types/auth.interface";
+import IMUSICUPDATEPARAMS from "../types/auth.interface";
 class AuthService {
   async createAuth(user) {
     const hashedPassword = await bcrypt.hash(
@@ -140,6 +142,63 @@ class AuthService {
     } else if (payload.endedAt) {
       updateParam.endedAt = payload.endedAt;
     }
+    const updateProfileInformationJobs =
+      await authRepository.updateProfileInformationJobs(
+        updateParam,
+        payload.userId
+      );
+    if (!updateProfileInformationJobs) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return updateProfileInformationJobs;
+  }
+  public async createProfileInformationBooks(payload) {
+    const createProfileInformationBooks =
+      await authRepository.createProfileInformationBooks(payload);
+    if (!createProfileInformationBooks) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return createProfileInformationBooks;
+  }
+  public async updateProfileInformationMovies(payload) {
+    const updateParam: IMOVIESUPDATEPARAMS = {};
+    if (payload.movieName) {
+      updateParam.movieName = payload.movieName;
+    } else if (payload.tvShowName) {
+      updateParam.tvShowName = payload.tvShowName;
+    }
+    const updateProfileInformationMovies =
+      await authRepository.updateProfileInformationMovies(
+        updateParam,
+        payload.userId
+      );
+    if (!updateProfileInformationMovies) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return updateProfileInformationMovies;
+  }
+  public async createProfileInformationMusic(payload) {
+    const createProfileInformationMusic =
+      await authRepository.createProfileInformationMusic(payload);
+    if (!createProfileInformationMusic) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return createProfileInformationMusic;
+  }
+  public async updateProfileInformationMusic(payload) {
+    const updateParam: IMUSICUPDATEPARAMS = {};
+    if (payload.music) {
+      updateParam.music = payload.music;
+    }
+    const updateProfileInformationMusic =
+      await authRepository.updateProfileInformationMusic(
+        updateParam,
+        payload.userId
+      );
+    if (!updateProfileInformationMusic) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return updateProfileInformationMusic;
   }
 }
 export default new AuthService();

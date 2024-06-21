@@ -206,5 +206,70 @@ class AuthController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async createProfileInformationBooks(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const { userId, bookName } = req.body;
+      await authService.findUserById(userId);
+      const createProfileInformationBooks =
+        await authService.createProfileInformationBooks(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
+        result: createProfileInformationBooks,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async updateProfileInformationMovies(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const { userId, movieName, tvShowName } = req.body;
+      await authService.findUserById(userId);
+      const updateProfileInformationMovies =
+        await authService.updateProfileInformationMovies(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
+        result: updateProfileInformationMovies,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async createProfileInformationMusic(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const { userId, music } = req.body;
+      await authService.findUserById(userId);
+      const createProfileInformationMusic =
+        await authService.createProfileInformationMusic(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
+        result: createProfileInformationMusic,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async updateProfileInformationMusic(req: Request, res: Response) {
+    try {
+      const { userId, music } = req.body;
+      await authService.findUserById(userId);
+      const updateProfileInformationMusic =
+        await authService.updateProfileInformationMusic(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
+        result: updateProfileInformationMusic,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
 }
 export default new AuthController();
