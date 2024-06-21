@@ -19,4 +19,20 @@ routes.post(
 );
 routes.post("/createProfileInfo", authController.createProfileInfo);
 routes.put("/updateProfileInfo", authController.updateProfileInfo);
+routes.put(
+  "/updateProfileInformationEducation",
+  authController.updateProfileInformationEducation
+);
+routes.post(
+  "/createProfileInformationEducation",
+  authController.createProfileInformationEducation
+);
+routes.put(
+  "/updateProfileInformationEducation",
+  authController.updateProfileInformationEducation
+);
+routes.post(
+  "/createProfileInformationJobs",
+  authController.createProfileInformationJobs
+);
 export default routes;

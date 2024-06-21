@@ -4,7 +4,7 @@ import authService from "../services/auth.service";
 import sendResponse from "../utils/response";
 import HttpStatus from "../../../common/httpStatus";
 import utility from "../utils/utility";
-import { Prisma } from "@prisma/client";
+
 let refreshTokens = [];
 class AuthController {
   public async signup(req: Request, res: Response): Promise<void> {
@@ -131,8 +131,76 @@ class AuthController {
   public async updateProfileInfo(req: Request, res: Response): Promise<void> {
     try {
       const { userId, gender, relationshipStatus } = req.body;
-      const findUser = await authService.findUserById(userId);
+      await authService.findUserById(userId);
       const updateProfileInfo = await authService.updateProfileInfo(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
+        result: updateProfileInfo,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async createProfileInformationEducation(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const { userId, degreeName, institution, startedAt, endedAt } = req.body;
+      await authService.findUserById(userId);
+      const createProfileInformationEducation =
+        await authService.createProfileInformationEducation(req.body);
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async updateProfileInformationEducation(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const { userId, degreeName, institution, startedAt, endedAt } = req.body;
+      await authService.findUserById(userId);
+      const updateProfileInfo =
+        await authService.updateProfileInformationEducation(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
+        result: updateProfileInfo,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async createProfileInformationJobs(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const { userId, designation, company, startedAt, endedAt } = req.body;
+      await authService.findUserById(userId);
+      const createProfileInformationJobs =
+        await authService.createProfileInformationJobs(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
+        result: createProfileInformationJobs,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async updateProfileInformationJobs(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const { userId, designation, company, startedAt, endedAt } = req.body;
+      await authService.findUserById(userId);
+      const updateProfileInformationJobs =
+        await authService.updateProfileInformationJobs(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
+        result: updateProfileInformationJobs,
+      });
     } catch (error) {
       console.log(error);
       return sendResponse(res, error.statusCode, error);
