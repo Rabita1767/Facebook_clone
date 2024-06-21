@@ -121,7 +121,7 @@ model Post {
   userId        String          @unique
   content       String?
   media         String?
-  privacy       privacy
+  privacy       privacy  @default(PUBLIC)
   checkIn       String?
   lifeEvent     String?
   PostReactions PostReactions[]
