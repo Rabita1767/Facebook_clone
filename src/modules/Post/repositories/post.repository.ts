@@ -7,6 +7,18 @@ class postRepository {
       },
     });
   }
+  public async createPost(payload) {
+    return prisma.post.create({
+      data: {
+        userId: payload.userId,
+        content: payload.content,
+        media: payload.media,
+        privacy: payload.privacy,
+        checkIn: payload.checkIn,
+        lifeEvent: payload.lifeEvent,
+      },
+    });
+  }
   public async updatePost(userId, updateParams) {
     return await prisma.post.update({
       where: {

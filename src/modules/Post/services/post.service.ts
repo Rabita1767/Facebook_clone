@@ -7,7 +7,11 @@ class postService {
     if (!findUser) {
       throw new BadRequestError("User not found");
     }
-    return findUser;
+    const createPost = await postRepository.createPost(payload);
+    if (!createPost) {
+      throw new BadRequestError("Post not found");
+    }
+    return createPost;
   }
   public async updatePost(payload: IPOST) {
     const findUser = await postRepository.findUserById(payload.userId);
