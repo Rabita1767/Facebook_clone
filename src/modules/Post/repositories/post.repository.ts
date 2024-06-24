@@ -7,5 +7,13 @@ class postRepository {
       },
     });
   }
+  public async updatePost(userId, updateParams) {
+    return await prisma.post.update({
+      where: {
+        userId: userId,
+      },
+      data: updateParams,
+    });
+  }
 }
 export default new postRepository();

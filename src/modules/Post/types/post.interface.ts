@@ -1,10 +1,10 @@
-export default interface IPOST {
+export interface IPOST {
   userId: string;
   content?: string;
   media?: string;
   checkIn?: string;
   lifeEvent?: string;
-  privacy: Privacy;
+  privacy?: Privacy;
 }
 enum Privacy {
   PUBLIC = "PUBLIC",
@@ -12,4 +12,11 @@ enum Privacy {
   CUSTOM = "CUSTOM",
   FRIENDS = "FRIENDS",
   ONLY_ME = "ONLY_ME",
+}
+export interface IUPDATEPOST {
+  content?: string;
+  media?: string;
+  checkIn?: string;
+  lifeEvent?: string;
+  privacy?: Privacy;
 }
