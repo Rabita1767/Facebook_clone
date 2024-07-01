@@ -10,5 +10,12 @@ class FriendRepository {
       },
     });
   }
+  public async getFriendsById(payload) {
+    return await prisma.friends.findMany({
+      where: {
+        friendOfId: payload.userId,
+      },
+    });
+  }
 }
 export default new FriendRepository();

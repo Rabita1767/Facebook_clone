@@ -15,5 +15,22 @@ class FriendController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async getFiendsById(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.body;
+      const friends = await friendService.getFriendsById(req.body);
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        "Friends retrieved successfully!",
+        {
+          result: friends,
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
 }
 export default new FriendController();

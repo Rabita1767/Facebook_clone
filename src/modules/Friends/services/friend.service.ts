@@ -9,5 +9,12 @@ class FriendService {
     }
     return sendFriendRequest;
   }
+  public async getFriendsById(payload) {
+    const getFriendsById = await FriendRepository.getFriendsById(payload);
+    if (!getFriendsById) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return getFriendsById;
+  }
 }
 export default new FriendService();
