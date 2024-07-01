@@ -18,13 +18,13 @@ class FriendController {
   public async getFiendsById(req: Request, res: Response): Promise<void> {
     try {
       const { userId } = req.body;
-      const friends = await friendService.getFriendsById(req.body);
+      const getFriendsById = await friendService.getFriendsById(req.body);
       return sendResponse(
         res,
         HttpStatus.OK,
         "Friends retrieved successfully!",
         {
-          result: friends,
+          result: getFriendsById,
         }
       );
     } catch (error) {
