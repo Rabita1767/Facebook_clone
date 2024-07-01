@@ -1,5 +1,6 @@
 export interface IPOST {
   userId: string;
+  postId?: string;
   content?: string;
   media?: string;
   checkIn?: string;

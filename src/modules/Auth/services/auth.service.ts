@@ -10,7 +10,6 @@ class AuthService {
       constants.saltValue
     );
     const fullName = user.fName + " " + user.lName;
-    console.log("fullName", fullName);
     user.name = fullName;
     user.password = hashedPassword;
     const createAuth = await AuthRepository.createAuth(user);
@@ -20,7 +19,7 @@ class AuthService {
     return createAuth;
   }
   async createUser(authId) {
-    const createUser = await AuthRepository.createUser(authId);
+    await AuthRepository.createUser(authId);
   }
   async login(email, password) {
     const user = await AuthRepository.findUserByEmail(email);

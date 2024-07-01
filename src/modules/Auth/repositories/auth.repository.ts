@@ -3,13 +3,15 @@ import { prisma } from "../../../config/prisma";
 class AuthRepository {
   public async createAuth(user: Prisma.AuthCreateInput) {
     console.log("name", user.name);
+    const Date_Of_Birth = new Date(user.Dob);
+    console.log("Date_Of_Birth", Date_Of_Birth);
     return await prisma.auth.create({
       data: {
         name: user.name,
         email: user.email,
         password: user.password,
         phoneNumber: user.phoneNumber,
-        Dob: user.Dob,
+        Dob: Date_Of_Birth,
       },
     });
   }

@@ -1,5 +1,4 @@
-import { Request, Response } from "express";
-import { prisma } from "../../../config/prisma";
+import { Request, Response, nextFunction } from "express";
 import authService from "../services/auth.service";
 import sendResponse from "../utils/response";
 import HttpStatus from "../../../common/httpStatus";
@@ -9,11 +8,8 @@ let refreshTokens = [];
 class AuthController {
   public async signup(req: Request, res: Response): Promise<void> {
     try {
-      const { fName, lName, password, confirmPassword, phoneNumber, Dob } =
-        req.body;
       const createAuth = await authService.createAuth(req.body);
-      console.log("hello", createAuth.id);
-      const createUser = await authService.createUser(createAuth.id);
+      await authService.createUser(createAuth.id);
       return sendResponse(res, HttpStatus.OK, "Signup successful!", {
         result: createAuth,
       });

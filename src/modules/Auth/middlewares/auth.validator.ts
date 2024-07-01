@@ -2,6 +2,8 @@ import { body, validationResult } from "express-validator";
 import RequestValidationError from "../../../common/errors/http422Error";
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../../../config/prisma";
+import sendResponse from "../utils/response";
+import HttpStatus from "../../../common/httpStatus";
 const authValidator = {
   signUp: [
     body("fName")
@@ -95,12 +97,25 @@ const authValidator = {
     (req: Request, res: Response, next: NextFunction) => {
       const errors: any = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(
-          new RequestValidationError("Validation error occured", errors.errors)
+        console.log("check", errors);
+        return sendResponse(
+          res,
+          HttpStatus.UNPROCESSABLE_ENTITY,
+          "Validation error occured",
+          errors.errors
         );
       }
       next();
     },
+    // (req: Request, res: Response, next: NextFunction) => {
+    //   const errors: any = validationResult(req);
+    //   if (!errors.isEmpty()) {
+    //     return next(
+    //       new RequestValidationError("Validation error occured", errors.errors)
+    //     );
+    //   }
+    //   next();
+    // },
   ],
 };
 export default authValidator;
