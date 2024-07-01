@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import { uploadFile } from "../../Auth/utils/multerConfiguration";
 import UserController from "../controllers/user.controller";
+import userController from "../controllers/user.controller";
 
 const routes = express();
 
@@ -53,4 +54,6 @@ routes.put(
   "/updateProfileInformationMusic",
   UserController.updateProfileInformationMusic
 );
+routes.post("/createBio", userController.createBio);
+routes.get("/getUserInfoById", userController.getUserInfoById);
 export default routes;

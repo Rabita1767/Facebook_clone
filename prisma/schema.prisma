@@ -180,6 +180,8 @@ model Friends {
   friendOfId String @unique
   friend     User   @relation("friendId", fields: [friendId], references: [id])
   friendId   String @unique
+  requestAccepted Boolean @default(false)
+  hasSent Boolean @default(false)
 }
 
 model BlockList {

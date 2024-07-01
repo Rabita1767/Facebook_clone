@@ -1,5 +1,5 @@
 import { prisma } from "../../../config/prisma";
-class UserRepository {
+export class UserRepository {
   public async findUserByEmail(email: string) {
     return await prisma.auth.findUnique({
       where: {
@@ -122,6 +122,23 @@ class UserRepository {
         userId: userId,
       },
       data: updateParam,
+    });
+  }
+  public async createBio(payload) {
+    return await prisma.user.update({
+      where: {
+        id: payload.userId,
+      },
+      data: {
+        bio: payload.bio,
+      },
+    });
+  }
+  public async getUserInfoById(userId) {
+    return await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
     });
   }
 }

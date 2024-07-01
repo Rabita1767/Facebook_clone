@@ -1,4 +1,5 @@
 import BadRequestError from "../../../common/errors/http400Error";
+import sendResponse from "../../Auth/utils/response";
 import UserRepository from "../repositories/user.repository";
 import IUPDATEPARAMS from "../types/user.interface";
 import IEDUCATIONUPDATEPARAMS from "../types/user.interface";
@@ -167,6 +168,20 @@ class UserService {
       throw new BadRequestError("Something went wrong!");
     }
     return updateProfileInformationMusic;
+  }
+  public async createBio(payload) {
+    const createBio = await UserRepository.createBio(payload);
+    if (!createBio) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return createBio;
+  }
+  public async getUserInfoById(userId) {
+    const getUserInfoById = await UserRepository.getUserInfoById(userId);
+    if (!getUserInfoById) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return getUserInfoById;
   }
 }
 export default new UserService();

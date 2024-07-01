@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import sendResponse from "../../Auth/utils/response";
 import HttpStatus from "../../../common/httpStatus";
 import UserService from "../services/user.service";
+import userService from "../services/user.service";
 class UserController {
   public async profilePictureUpload(
     req: Request,
@@ -191,6 +192,30 @@ class UserController {
         await UserService.updateProfileInformationMusic(req.body);
       return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
         result: updateProfileInformationMusic,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async createBio(req: Request, res: Response) {
+    try {
+      const { userId, bio } = req.body;
+      const createBio = await userService.createBio(req.body);
+      return sendResponse(res, HttpStatus.OK, "Bio created!", {
+        result: createBio,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async getUserInfoById(req: Request, res: Response) {
+    try {
+      const { userId } = req.body;
+      const getUserInfoById = await userService.getUserInfoById(userId);
+      return sendResponse(res, HttpStatus.OK, "User info by Id!", {
+        result: getUserInfoById,
       });
     } catch (error) {
       console.log(error);
