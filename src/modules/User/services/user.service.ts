@@ -192,9 +192,11 @@ class UserService {
     } else if (checkIfFriends.length == 0) {
       const findAllFriends = await userRepository.findAllFriends(payload);
       if (findAllFriends.length > 0) {
+        console.log("findAllFriends", findAllFriends);
         const isFriend = findAllFriends.find(
-          (friend) => friend.friendId === payload.userId
+          (friend) => friend.friendOfId === payload.profileUserId
         );
+        console.log("isFriend", isFriend);
         if (isFriend) {
           const showFriendsOfFriendsPost =
             await userRepository.showFriendsOfFriendsPost(payload);
