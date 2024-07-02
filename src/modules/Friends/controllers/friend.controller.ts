@@ -32,5 +32,41 @@ class FriendController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async acceptFriendRequest(req: Request, res: Response): Promise<void> {
+    try {
+      const { sentRequestId, userId } = req.body;
+      const acceptFriendRequest = await friendService.acceptFriendRequest(
+        req.body
+      );
+      return sendResponse(res, HttpStatus.OK, "Friend Request accepted!", {
+        result: acceptFriendRequest,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async getFriendRequestById(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const { userId } = req.body;
+      const getFriendRequestById = await friendService.getFriendRequestById(
+        req.body
+      );
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        "Friend Request retrieved successfully!",
+        {
+          result: getFriendRequestById,
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
 }
 export default new FriendController();

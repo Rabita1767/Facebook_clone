@@ -16,5 +16,23 @@ class FriendService {
     }
     return getFriendsById;
   }
+  public async acceptFriendRequest(payload) {
+    const acceptFriendRequest = await friendRepository.acceptFriendRequest(
+      payload
+    );
+    if (!acceptFriendRequest) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return acceptFriendRequest;
+  }
+  public async getFriendRequestById(payload) {
+    const getFriendRequestById = await friendRepository.getFriendRequestById(
+      payload
+    );
+    if (!getFriendRequestById) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return getFriendRequestById;
+  }
 }
 export default new FriendService();

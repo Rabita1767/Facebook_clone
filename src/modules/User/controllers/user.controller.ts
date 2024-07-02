@@ -222,5 +222,17 @@ class UserController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async seeProfileinfo(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId, profileUserId } = req.body;
+      const seeProfileInfo = await userService.seeProfileInfo(req.body);
+      return sendResponse(res, HttpStatus.OK, "Profile Info Seen!", {
+        result: seeProfileInfo,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
 }
 export default new UserController();

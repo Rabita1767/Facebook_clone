@@ -43,5 +43,15 @@ class postRepository {
       },
     });
   }
+  public async setPostPrivacy(payload) {
+    return await prisma.post.update({
+      where: {
+        id: payload.postId,
+      },
+      data: {
+        privacy: payload.privacyType,
+      },
+    });
+  }
 }
 export default new postRepository();

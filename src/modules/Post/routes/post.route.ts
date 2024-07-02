@@ -9,4 +9,6 @@ routes.post(
 );
 routes.patch("/updatePost", postController.updatePost);
 routes.get("/getPostsById", postController.getPostsById);
+routes.patch("/setPostPrivacy", postController.setPostPrivacy);
+
 export default routes;

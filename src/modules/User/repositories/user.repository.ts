@@ -141,5 +141,49 @@ export class UserRepository {
       },
     });
   }
+  public async checkIfFriends(payload) {
+    return await prisma.friends.findMany({
+      where: {
+        AND: [
+          { friendOfId: payload.profileUserId },
+          { friendId: payload.userId },
+        ],
+      },
+    });
+  }
+  public async showFriendsPost(payload) {
+    return await prisma.post.findMany({
+      where: {
+        userId: payload.profileUserId,
+        privacy: {
+          in: ["FRIENDS", "FRIENDS_OF_FRIENDS", "PUBLIC"],
+        },
+      },
+    });
+  }
+  public async showFriendsOfFriendsPost(payload) {
+    return await prisma.post.findMany({
+      where: {
+        userId: payload.profileUserId,
+        privacy: {
+          in: ["FRIENDS_OF_FRIENDS", "PUBLIC"],
+        },
+      },
+    });
+  }
+  public async showPublicPost(payload) {
+    return await prisma.post.findMany({
+      where: {
+        AND: [{ userId: payload.profileUserId }, { privacy: "PUBLIC" }],
+      },
+    });
+  }
+  public async findAllFriends(payload) {
+    return await prisma.friends.findMany({
+      where: {
+        friendOfId: payload.profileUserId,
+      },
+    });
+  }
 }
 export default new UserRepository();

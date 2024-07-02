@@ -39,5 +39,17 @@ class PostController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async setPostPrivacy(req: Request, res: Response): Promise<void> {
+    try {
+      const { postId, privacyType } = req.body;
+      const setPostPrivacy = await postService.setPostPrivacy(req.body);
+      return sendResponse(res, HttpStatus.OK, "Post Privacy updated!", {
+        result: setPostPrivacy,
+      });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
 }
 export default new PostController();

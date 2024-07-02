@@ -1,5 +1,6 @@
 import BadRequestError from "../../../common/errors/http400Error";
 import sendResponse from "../../Auth/utils/response";
+import userRepository from "../repositories/user.repository";
 import UserRepository from "../repositories/user.repository";
 import IUPDATEPARAMS from "../types/user.interface";
 import IEDUCATIONUPDATEPARAMS from "../types/user.interface";
@@ -182,6 +183,28 @@ class UserService {
       throw new BadRequestError("Something went wrong!");
     }
     return getUserInfoById;
+  }
+  public async seeProfileInfo(payload) {
+    const checkIfFriends = await userRepository.checkIfFriends(payload);
+    if (checkIfFriends.length > 0) {
+      const showFriendsPost = await userRepository.showFriendsPost(payload);
+      return showFriendsPost;
+    } else if (checkIfFriends.length == 0) {
+      const findAllFriends = await userRepository.findAllFriends(payload);
+      if (findAllFriends.length > 0) {
+        const isFriend = findAllFriends.find(
+          (friend) => friend.friendId === payload.userId
+        );
+        if (isFriend) {
+          const showFriendsOfFriendsPost =
+            await userRepository.showFriendsOfFriendsPost(payload);
+          return showFriendsOfFriendsPost;
+        } else {
+          const showPublicPost = await userRepository.showPublicPost(payload);
+          return showPublicPost;
+        }
+      }
+    }
   }
 }
 export default new UserService();

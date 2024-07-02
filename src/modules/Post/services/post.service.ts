@@ -47,5 +47,12 @@ class postService {
     }
     return getPostsById;
   }
+  public async setPostPrivacy(payload) {
+    const setPostPrivacy = await postRepository.setPostPrivacy(payload);
+    if (!setPostPrivacy) {
+      throw new BadRequestError("Something went wrong!Please Try again later");
+    }
+    return setPostPrivacy;
+  }
 }
 export default new postService();

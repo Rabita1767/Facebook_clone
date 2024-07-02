@@ -56,4 +56,5 @@ routes.put(
 );
 routes.post("/createBio", userController.createBio);
 routes.get("/getUserInfoById", userController.getUserInfoById);
+routes.get("/seeProfileInfo", userController.seeProfileinfo);
 export default routes;
