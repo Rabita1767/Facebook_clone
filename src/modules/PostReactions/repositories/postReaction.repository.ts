@@ -12,5 +12,13 @@ class postReactionRepository {
       },
     });
   }
+  public async getAllPostReaction(payload) {
+    const { postId } = payload;
+    return await prisma.postReactions.findMany({
+      where: {
+        postId: payload.postId,
+      },
+    });
+  }
 }
 export default new postReactionRepository();
