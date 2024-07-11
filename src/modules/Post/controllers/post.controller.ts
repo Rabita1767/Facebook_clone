@@ -3,6 +3,7 @@ import sendResponse from "../../Auth/utils/response";
 import postService from "../services/post.service";
 import HttpStatus from "../../../common/httpStatus";
 import utility from "../../Auth/utils/utility";
+import { promises } from "dns";
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {
     try {
