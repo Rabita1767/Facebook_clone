@@ -15,8 +15,19 @@ class postReactionService {
     const getAllPostReaction = await postReactionRepository.getAllPostReaction(
       payload
     );
+    const getAllLikes = await postReactionRepository.getAllLikes(payload);
+    const getAllHearts = await postReactionRepository.getAllHearts(payload);
+    const getAllHaha = await postReactionRepository.getAllHaha(payload);
+    const getAllWow = await postReactionRepository.getAllWow(payload);
+
     if (getAllPostReaction.length > 0) {
-      return getAllPostReaction;
+      return {
+        totalReactions: getAllPostReaction,
+        totalLikes: getAllLikes,
+        totalHearts: getAllHearts,
+        totalHaha: getAllHaha,
+        totalWow: getAllWow,
+      };
     } else {
       throw new BadRequestError("No posts found!");
     }
