@@ -53,5 +53,29 @@ class postReactionRepository {
       },
     });
   }
+  public async getAllCare(payload) {
+    return await prisma.postReactions.findMany({
+      where: {
+        postId: payload.postId,
+        type: "CARE"
+      }
+    })
+  }
+  public async getAllAngry(payload) {
+    return await prisma.postReactions.findMany({
+      where: {
+        postId: payload.postId,
+        type: "ANGRY"
+      }
+    })
+  }
+  public async getAllSad(payload) {
+    return await prisma.postReactions.findMany({
+      where: {
+        postId: payload.postId,
+        type: "SAD"
+      }
+    })
+  }
 }
 export default new postReactionRepository();

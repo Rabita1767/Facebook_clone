@@ -6,6 +6,7 @@ import userRoute from "../src/modules/User/routes/user.route";
 import postRoute from "../src/modules/Post/routes/post.route";
 import friendRoute from "../src/modules/Friends/routes/friend.route";
 import postReactionRoute from "../src/modules/PostReactions/routes/postReaction.route";
+import commentRoute from "../src/modules/Comments/routes/comment.route";
 dotenv.config();
 const app = express();
 app.use(cors({ origin: "*" }));
@@ -17,6 +18,7 @@ app.use("/user", userRoute);
 app.use("/post", postRoute);
 app.use("/friend", friendRoute);
 app.use("/postReaction", postReactionRoute);
+app.use("/comment", commentRoute);
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server is running at port ${port}`);

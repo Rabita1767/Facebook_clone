@@ -18,7 +18,7 @@ model Auth {
   name        String
   email       String   @unique
   password    String
-  phoneNumber String?     @unique
+  phoneNumber String?  @unique
   Dob         DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -118,10 +118,10 @@ model ProfileInformationMusic {
 model Post {
   id            String          @id @default(uuid())
   user          User            @relation(fields: [userId], references: [id])
-  userId        String          
+  userId        String
   content       String?
   media         String[]
-  privacy       privacy  @default(PUBLIC)
+  privacy       privacy         @default(PUBLIC)
   checkIn       String?
   lifeEvent     String?
   PostReactions PostReactions[]
@@ -150,6 +150,7 @@ model Comment {
   post             Post               @relation(fields: [postId], references: [id])
   postId           String             @unique
   content          String
+  parentCommentId  String?
   commentReactions commentReactions[]
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
@@ -175,13 +176,13 @@ model Story {
 }
 
 model Friends {
-  id         String @id @default(uuid())
-  friendOf   User   @relation("friendOfId", fields: [friendOfId], references: [id])
-  friendOfId String @unique
-  friend     User   @relation("friendId", fields: [friendId], references: [id])
-  friendId   String @unique
+  id              String  @id @default(uuid())
+  friendOf        User    @relation("friendOfId", fields: [friendOfId], references: [id])
+  friendOfId      String  @unique
+  friend          User    @relation("friendId", fields: [friendId], references: [id])
+  friendId        String  @unique
   requestAccepted Boolean @default(false)
-  hasSent Boolean @default(false)
+  hasSent         Boolean @default(false)
 }
 
 model BlockList {
