@@ -54,5 +54,12 @@ class postService {
     }
     return setPostPrivacy;
   }
+  public async findPostByPostId(payload) {
+    const findPostByPostId = await postRepository.findPostByPostId(payload);
+    if (!findPostByPostId) {
+      throw new BadRequestError("Post does not exist!");
+    }
+    return findPostByPostId;
+  }
 }
 export default new postService();

@@ -53,5 +53,13 @@ class postRepository {
       },
     });
   }
+  public async findPostByPostId(payload) {
+    const { postId } = payload;
+    return await prisma.post.findUnique({
+      where: {
+        id: postId
+      }
+    })
+  }
 }
 export default new postRepository();

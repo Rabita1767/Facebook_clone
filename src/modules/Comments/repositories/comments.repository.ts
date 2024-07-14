@@ -19,6 +19,15 @@ class CommentRepository {
             }
         })
     }
+    public async getAllComments(payload) {
+        const { postId } = payload;
+        return await prisma.comment.findMany({
+            where: {
+                id: postId,
+                parentCommentId: null
+            }
+        })
+    }
 
 }
 export default new CommentRepository();

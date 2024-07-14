@@ -27,6 +27,13 @@ class CommentService {
         }
         return createComment;
     }
+    public async getAllComments(payload) {
+        const getAllComments = await commentsRepository.getAllComments(payload);
+        if (getAllComments.length == 0) {
+            throw new BadRequestError("No comments found!");
+        }
+        return getAllComments;
+    }
 
 }
 export default new CommentService();
