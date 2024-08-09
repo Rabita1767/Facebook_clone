@@ -9,7 +9,6 @@ class AuthController {
   public async signup(req: Request, res: Response): Promise<void> {
     try {
       const createAuth = await authService.createAuth(req.body);
-      await authService.createUser(createAuth.id);
       return sendResponse(res, HttpStatus.OK, "Signup successful!", {
         result: createAuth,
       });

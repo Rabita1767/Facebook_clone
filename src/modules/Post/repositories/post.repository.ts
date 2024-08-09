@@ -43,13 +43,13 @@ class postRepository {
       },
     });
   }
-  public async setPostPrivacy(payload) {
+  public async setPostPrivacy(data) {
     return await prisma.post.update({
       where: {
-        id: payload.postId,
+        id: data.postId,
       },
       data: {
-        privacy: payload.privacyType,
+        privacy: data.privacyType,
       },
     });
   }
@@ -57,9 +57,58 @@ class postRepository {
     const { postId } = payload;
     return await prisma.post.findUnique({
       where: {
-        id: postId
-      }
-    })
+        id: postId,
+      },
+    });
+  }
+  public async deletePostById(postId) {
+    return await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        isDeleted: true,
+      },
+    });
+  }
+  public async uploadCoverPost(userId, file, data) {
+    return await prisma.post.create({
+      data: {
+        userId: userId,
+        media: file.filename,
+        content: data.content,
+        postType: "COVERPHOTO",
+      },
+    });
+  }
+  public async removeCoverPost(data) {
+    return await prisma.post.update({
+      where: {
+        id: data.postId,
+      },
+      data: {
+        isDeleted: true,
+      },
+    });
+  }
+  public async uploadProfilePost(userId, file, data) {
+    return await prisma.post.create({
+      data: {
+        userId: userId,
+        media: file.filename,
+        content: data.content,
+      },
+    });
+  }
+  public async removeProfilePost(data) {
+    return await prisma.post.update({
+      where: {
+        id: data.postId,
+      },
+      data: {
+        isDeleted: true,
+      },
+    });
   }
 }
 export default new postRepository();

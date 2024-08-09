@@ -3,6 +3,8 @@ import AuthRepository from "../repositories/auth.repository";
 import constants from "../config/constant";
 import BadRequestError from "../../../common/errors/http400Error";
 import authRepository from "../repositories/auth.repository";
+import userRepository from "../../User/repositories/user.repository";
+import basicProfileInfoRepository from "../../BasicProfileInfo/repositories/basicProfileInfo.repository";
 class AuthService {
   async createAuth(user) {
     const hashedPassword = await bcrypt.hash(
@@ -13,7 +15,13 @@ class AuthService {
     user.name = fullName;
     user.password = hashedPassword;
     const createAuth = await AuthRepository.createAuth(user);
-    if (!createAuth) {
+    const createUser = await userRepository.createUser(createAuth.id);
+    const createBasicInfo = await basicProfileInfoRepository.createBasicInfo(
+      createAuth.dob,
+      createAuth.gender,
+      createUser.id
+    );
+    if (!createAuth || !createUser || !createBasicInfo) {
       throw new BadRequestError("Something went wrong!");
     }
     return createAuth;

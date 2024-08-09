@@ -3,19 +3,9 @@ import multer from "multer";
 import { uploadFile } from "../../Auth/utils/multerConfiguration";
 import UserController from "../controllers/user.controller";
 import userController from "../controllers/user.controller";
-
+import auth from "../../Auth/middlewares/auth.middleware";
 const routes = express();
 
-routes.post(
-  "/profilePictureUpload",
-  uploadFile.single("image"),
-  UserController.profilePictureUpload
-);
-routes.post(
-  "/coverPhotoUpload",
-  uploadFile.single("image"),
-  UserController.coverPhotoUpload
-);
 routes.post("/createProfileInfo", UserController.createProfileInfo);
 routes.put("/updateProfileInfo", UserController.updateProfileInfo);
 routes.put(
@@ -54,7 +44,7 @@ routes.put(
   "/updateProfileInformationMusic",
   UserController.updateProfileInformationMusic
 );
-routes.post("/createBio", userController.createBio);
 routes.get("/getUserInfoById", userController.getUserInfoById);
 routes.get("/seeProfileInfo", userController.seeProfileinfo);
+routes.post("/setBio", auth.Auth, userController.setBio);
 export default routes;

@@ -1,4 +1,5 @@
 import BadRequestError from "../../../common/errors/http400Error";
+import { message } from "../../../common/message";
 import sendResponse from "../../Auth/utils/response";
 import userRepository from "../repositories/user.repository";
 import UserRepository from "../repositories/user.repository";
@@ -24,23 +25,7 @@ class UserService {
       return findUser;
     }
   }
-  async saveProfilePicture(user, file) {
-    const saveProfilePicture = await UserRepository.saveProfilePicture(
-      user,
-      file
-    );
-    if (!saveProfilePicture) {
-      throw new BadRequestError("Something went wrong!");
-    }
-    return saveProfilePicture;
-  }
-  async saveCoverPhoto(user, file) {
-    const saveCoverPhoto = await UserRepository.saveCoverPhoto(user, file);
-    if (!saveCoverPhoto) {
-      throw new BadRequestError("Something went wrong!");
-    }
-    return saveCoverPhoto;
-  }
+
   async createProfileInfo(payload) {
     const createProfileInfo = await UserRepository.createProfileInfo(payload);
     if (!createProfileInfo) {
@@ -170,13 +155,7 @@ class UserService {
     }
     return updateProfileInformationMusic;
   }
-  public async createBio(payload) {
-    const createBio = await UserRepository.createBio(payload);
-    if (!createBio) {
-      throw new BadRequestError("Something went wrong!");
-    }
-    return createBio;
-  }
+
   public async getUserInfoById(userId) {
     const getUserInfoById = await UserRepository.getUserInfoById(userId);
     if (!getUserInfoById) {
@@ -207,6 +186,13 @@ class UserService {
         }
       }
     }
+  }
+  public async setBio(userId, bio) {
+    const setBio = await userRepository.setBio(userId, bio);
+    if (!setBio) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    return setBio;
   }
 }
 export default new UserService();

@@ -1,5 +1,12 @@
 import { prisma } from "../../../config/prisma";
-export class UserRepository {
+class UserRepository {
+  public async createUser(authId) {
+    return await prisma.user.create({
+      data: {
+        authId: authId,
+      },
+    });
+  }
   public async findUserByEmail(email: string) {
     return await prisma.auth.findUnique({
       where: {
@@ -16,26 +23,6 @@ export class UserRepository {
     });
   }
 
-  public async saveProfilePicture(user, file) {
-    return await prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        profilePic: file.filename,
-      },
-    });
-  }
-  public async saveCoverPhoto(user, file) {
-    return await prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        coverPhoto: file.filename,
-      },
-    });
-  }
   public async createProfileInfo(payload) {
     return await prisma.profileInformationBasic.create({
       data: {
@@ -124,16 +111,6 @@ export class UserRepository {
       data: updateParam,
     });
   }
-  public async createBio(payload) {
-    return await prisma.user.update({
-      where: {
-        id: payload.userId,
-      },
-      data: {
-        bio: payload.bio,
-      },
-    });
-  }
   public async getUserInfoById(userId) {
     return await prisma.user.findUnique({
       where: {
@@ -182,6 +159,16 @@ export class UserRepository {
     return await prisma.friends.findMany({
       where: {
         friendOfId: payload.profileUserId,
+      },
+    });
+  }
+  public async setBio(userId, bio) {
+    return await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        bio: bio,
       },
     });
   }

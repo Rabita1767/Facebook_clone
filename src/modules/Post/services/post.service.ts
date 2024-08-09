@@ -61,5 +61,12 @@ class postService {
     }
     return findPostByPostId;
   }
+  public async deletePostById(postId) {
+    const deletePostById = await postRepository.deletePostById(postId);
+    if (!deletePostById) {
+      throw new BadRequestError("Something went wrong!");
+    }
+    return deletePostById;
+  }
 }
 export default new postService();

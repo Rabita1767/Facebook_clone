@@ -3,45 +3,9 @@ import sendResponse from "../../Auth/utils/response";
 import HttpStatus from "../../../common/httpStatus";
 import UserService from "../services/user.service";
 import userService from "../services/user.service";
+import { send } from "process";
+import { message } from "../../../common/message";
 class UserController {
-  public async profilePictureUpload(
-    req: Request,
-    res: Response
-  ): Promise<void> {
-    try {
-      const { userId } = req.body;
-      const findUser = await UserService.findUserById(userId);
-      const saveProfilePicture = await UserService.saveProfilePicture(
-        findUser,
-        req.file
-      );
-      console.log("iame", req.file);
-      return sendResponse(res, HttpStatus.OK, "Profile Picture Uploaded!", {
-        result: saveProfilePicture,
-      });
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
-  public async coverPhotoUpload(req: Request, res: Response): Promise<void> {
-    try {
-      const { userId } = req.body;
-      console.log("controller", userId);
-      const findUser = await UserService.findUserById(userId);
-      const saveCoverPhoto = await UserService.saveCoverPhoto(
-        findUser,
-        req.file
-      );
-      console.log("iame", req.file);
-      return sendResponse(res, HttpStatus.OK, "Cover Photo Uploaded!", {
-        result: saveCoverPhoto,
-      });
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
   public async createProfileInfo(req: Request, res: Response): Promise<void> {
     try {
       const { userId, gender, relationshipStatus } = req.body;
@@ -198,18 +162,7 @@ class UserController {
       return sendResponse(res, error.statusCode, error);
     }
   }
-  public async createBio(req: Request, res: Response) {
-    try {
-      const { userId, bio } = req.body;
-      const createBio = await userService.createBio(req.body);
-      return sendResponse(res, HttpStatus.OK, "Bio created!", {
-        result: createBio,
-      });
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
+
   public async getUserInfoById(req: Request, res: Response) {
     try {
       const { userId } = req.body;
@@ -229,6 +182,20 @@ class UserController {
       return sendResponse(res, HttpStatus.OK, "Profile Info Seen!", {
         result: seeProfileInfo,
       });
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async setBio(req: Request, res: Response): Promise<void> {
+    try {
+      const setBio = await userService.setBio(req.userId, req.body);
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.YOUR_BIO_HAS_BEEN_UPDATED_SUCCESSFULLY,
+        setBio
+      );
     } catch (error) {
       console.log(error);
       return sendResponse(res, error.statusCode, error);
