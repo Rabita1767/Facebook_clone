@@ -9,6 +9,7 @@ class EducationProfileInfoRepository {
         institution: data.institution,
         startedAt: data.startedAt,
         endedAt: data.endedAt,
+        setPrivacy: data.setPrivacy,
       },
     });
   }
@@ -18,6 +19,16 @@ class EducationProfileInfoRepository {
         id: documentId,
       },
       data: data,
+    });
+  }
+  public async deleteEducationProfileInfo(data) {
+    return prisma.profileInformationEducation.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        isDeleted: true,
+      },
     });
   }
 }

@@ -31,15 +31,30 @@ class EducationProfileInfoController {
   ): Promise<void> {
     try {
       const updateEducationProfileInfo =
-        await educationProfileInfoService.updateEducationProfileInfo(
-          req.body,
-          req.userId
-        );
+        await educationProfileInfoService.updateEducationProfileInfo(req.body);
       return sendResponse(
         res,
         HttpStatus.OK,
         message.PROFILE_UPDATED_SUCCESSFULLY,
         updateEducationProfileInfo
+      );
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async deleteEducationProfileInfo(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const deleteEducationProfileInfo =
+        await educationProfileInfoService.deleteEducationProfileInfo(req.body);
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.PROFILE_UPDATED_SUCCESSFULLY,
+        deleteEducationProfileInfo
       );
     } catch (error) {
       console.log(error);

@@ -12,3 +12,8 @@ routes.put(
   auth.Auth,
   educationProfileInfoController.updateEducationProfileInfo
 );
+routes.post(
+  "/deleteEducationProfileInfo",
+  auth.Auth,
+  educationProfileInfoController.deleteEducationProfileInfo
+);

@@ -19,33 +19,43 @@ class EducationProfileInfoService {
     const educationInfo: educationInfo = {};
     if (!data.id) {
       throw new BadRequestError(message.SOMETHING_WENT_WRONG);
-    } else {
-      if (data.degreeName) {
-        educationInfo.degreeName = data.degreeName;
-      }
-      if (data.institution) {
-        educationInfo.institution = data.institution;
-      }
-      if (data.startedAt) {
-        educationInfo.startedAt = data.startedAt;
-      }
-      if (data.endedAt) {
-        educationInfo.endedAt = data.endedAt;
-      }
-      if (data.setPrivacy) {
-        educationInfo.setPrivacy = data.setPrivacy;
-      }
-
-      const updateEducationProfileInfo =
-        await educationProfileInfoRepository.updateEducationProfileInfo(
-          educationInfo,
-          data.id
-        );
-      if (!updateEducationProfileInfo) {
-        throw new BadRequestError(message.SOMETHING_WENT_WRONG);
-      }
-      return updateEducationProfileInfo;
     }
+    if (data.degreeName) {
+      educationInfo.degreeName = data.degreeName;
+    }
+    if (data.institution) {
+      educationInfo.institution = data.institution;
+    }
+    if (data.startedAt) {
+      educationInfo.startedAt = data.startedAt;
+    }
+    if (data.endedAt) {
+      educationInfo.endedAt = data.endedAt;
+    }
+    if (data.setPrivacy) {
+      educationInfo.setPrivacy = data.setPrivacy;
+    }
+
+    const updateEducationProfileInfo =
+      await educationProfileInfoRepository.updateEducationProfileInfo(
+        educationInfo,
+        data.id
+      );
+    if (!updateEducationProfileInfo) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    return updateEducationProfileInfo;
+  }
+  public async deleteEducationProfileInfo(data) {
+    if (!data.id) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    const deleteEducationProfileInfo =
+      await educationProfileInfoRepository.deleteEducationProfileInfo(data);
+    if (!deleteEducationProfileInfo) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    return deleteEducationProfileInfo;
   }
 }
 export default new EducationProfileInfoService();
