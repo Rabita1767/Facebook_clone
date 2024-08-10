@@ -6,63 +6,6 @@ import userService from "../services/user.service";
 import { send } from "process";
 import { message } from "../../../common/message";
 class UserController {
-  public async createProfileInfo(req: Request, res: Response): Promise<void> {
-    try {
-      const { userId, gender, relationshipStatus } = req.body;
-      const findUser = await UserService.findUserById(userId);
-      const createProfileInfo = await UserService.createProfileInfo(req.body);
-      return sendResponse(res, HttpStatus.OK, "Profile Info Created!", {
-        result: createProfileInfo,
-      });
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
-  public async updateProfileInfo(req: Request, res: Response): Promise<void> {
-    try {
-      const { userId, gender, relationshipStatus } = req.body;
-      await UserService.findUserById(userId);
-      const updateProfileInfo = await UserService.updateProfileInfo(req.body);
-      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
-        result: updateProfileInfo,
-      });
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
-  public async createProfileInformationEducation(
-    req: Request,
-    res: Response
-  ): Promise<void> {
-    try {
-      const { userId, degreeName, institution, startedAt, endedAt } = req.body;
-      await UserService.findUserById(userId);
-      const createProfileInformationEducation =
-        await UserService.createProfileInformationEducation(req.body);
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
-  public async updateProfileInformationEducation(
-    req: Request,
-    res: Response
-  ): Promise<void> {
-    try {
-      const { userId, degreeName, institution, startedAt, endedAt } = req.body;
-      await UserService.findUserById(userId);
-      const updateProfileInfo =
-        await UserService.updateProfileInformationEducation(req.body);
-      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
-        result: updateProfileInfo,
-      });
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
   public async createProfileInformationJobs(
     req: Request,
     res: Response

@@ -23,43 +23,6 @@ class UserRepository {
     });
   }
 
-  public async createProfileInfo(payload) {
-    return await prisma.profileInformationBasic.create({
-      data: {
-        gender: payload.gender,
-        relationshipStatus: payload.relationshipStatus,
-        userId: payload.userId,
-      },
-    });
-  }
-
-  public async createProfileInformationEducation(payload) {
-    return await prisma.profileInformationEducation.create({
-      data: {
-        userId: payload.userId,
-        degreeName: payload.degreeName,
-        institution: payload.institution,
-        startedAt: payload.startedAt,
-        endedAt: payload.endedAt,
-      },
-    });
-  }
-  public async updateProfileInfo(updateParam, userId) {
-    return await prisma.profileInformationBasic.update({
-      where: {
-        userId: userId,
-      },
-      data: updateParam,
-    });
-  }
-  public async updateProfileInformationEducation(updateParam, userId) {
-    return await prisma.profileInformationEducation.update({
-      where: {
-        userId: userId,
-      },
-      data: updateParam,
-    });
-  }
   public async createProfileInformationJobs(payload) {
     return await prisma.profileInformationJobs.create({
       data: {

@@ -26,58 +26,6 @@ class UserService {
     }
   }
 
-  async createProfileInfo(payload) {
-    const createProfileInfo = await UserRepository.createProfileInfo(payload);
-    if (!createProfileInfo) {
-      throw new BadRequestError("Something went wrong!");
-    }
-    return createProfileInfo;
-  }
-  async createProfileInformationEducation(payload) {
-    const createProfileInformationEducation =
-      await UserRepository.createProfileInformationEducation(payload);
-    if (!createProfileInformationEducation) {
-      throw new BadRequestError("Something went wrong!");
-    }
-    return createProfileInformationEducation;
-  }
-  async updateProfileInfo(payload) {
-    const updateParam: IUPDATEPARAMS = {};
-    if (payload.gender) {
-      updateParam.gender = payload.gender;
-    } else if (payload.relationshipStatus) {
-      updateParam.relationshipStatus = payload.relationshipStatus;
-    }
-    const updateProfileInfo = await UserRepository.updateProfileInfo(
-      updateParam,
-      payload.userId
-    );
-    if (!updateProfileInfo) {
-      throw new BadRequestError("Something went wrong!");
-    }
-    return updateProfileInfo;
-  }
-  public async updateProfileInformationEducation(payload) {
-    const updateParam: IEDUCATIONUPDATEPARAMS = {};
-    if (payload.degreeName) {
-      updateParam.degreeName = payload.degreeName;
-    } else if (payload.institution) {
-      updateParam.institution = payload.institution;
-    } else if (payload.startedAt) {
-      updateParam.startedAt = payload.startedAt;
-    } else if (payload.endedAt) {
-      updateParam.endedAt = payload.endedAt;
-    }
-    const updateProfileInformationEducation =
-      await UserRepository.updateProfileInformationEducation(
-        updateParam,
-        payload.userId
-      );
-    if (!updateProfileInformationEducation) {
-      throw new BadRequestError("Something went wrong!");
-    }
-    return updateProfileInformationEducation;
-  }
   public async createProfileInformationJobs(payload) {
     const createProfileInformationJobs =
       await UserRepository.createProfileInformationJobs(payload);
