@@ -45,13 +45,14 @@ model User {
   createdAt                   DateTime                      @default(now())
   updatedAt                   DateTime                      @updatedAt
   Story                       Story[]
-  FriendOf                    Friends?                      @relation("friendOfId")
-  Friends                     Friends[]                     @relation("friendId")
+  FriendOf                    Friends?                      @relation("userId1")
+  Friends                     Friends[]                     @relation("userId2")
   BlockedBy                   BlockList[]                   @relation("isBlockedBy")
   isBlocked                   BlockList?                    @relation("isBlocked")
   Share                       Share?
   profilePicture              profilePicture[]
   coverPhoto                  coverPhoto[]
+  friendRequestPrivacy        friendRequestPrivacy          @default(PUBLIC)
 }
 
 model ProfileInformationBasic {
@@ -193,10 +194,10 @@ model Story {
 
 model Friends {
   id              String  @id @default(uuid())
-  friendOf        User    @relation("friendOfId", fields: [friendOfId], references: [id])
-  friendOfId      String  @unique
-  friend          User    @relation("friendId", fields: [friendId], references: [id])
-  friendId        String  @unique
+  friendOf        User    @relation("userId1", fields: [userId1], references: [id])
+  userId1         String  @unique
+  friend          User    @relation("userId2", fields: [userId2], references: [id])
+  userId2         String  @unique
   requestAccepted Boolean @default(false)
   hasSent         Boolean @default(false)
 }
@@ -285,4 +286,9 @@ enum postType {
   TAGGED
   PROFILEPICTURE
   COVERPHOTO
+}
+
+enum friendRequestPrivacy {
+  PUBLIC
+  FRIENDS_OF_FRIENDS
 }

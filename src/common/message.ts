@@ -9,5 +9,7 @@ export const message = {
   RELATIONSHIP_STATUS_HAS_BEEN_UPDATED_SUCCESSFULLY:
     "Relationship status has been updated successfully!",
   PROFILE_UPDATED_SUCCESSFULLY: "Profile updated successfully!",
+  FRIEND_REQUEST_SENT_SUCCESSFULLY: "Friend request sent successfully!",
+  CANT_SEND_FRIEND_REQUEST: "Can't send friend request!",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };

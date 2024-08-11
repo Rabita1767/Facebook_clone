@@ -1,59 +1,46 @@
 import { prisma } from "../../../config/prisma";
 class FriendRepository {
-  public async sendFriendRequest(payload) {
+  public async sendFriendRequest(data) {
     return await prisma.friends.create({
       data: {
-        friendOfId: payload.sentReqestId,
-        friendId: payload.userId,
+        userId1: data.userId1,
+        userId2: data.userId2,
         hasSent: true,
-        requestAccepted: false,
       },
     });
   }
-  public async getFriendsById(payload) {
+  public async acceptedFriendList(data) {
     return await prisma.friends.findMany({
       where: {
-        AND: [{ friendOfId: payload.userId }, { requestAccepted: true }],
-      },
-    });
-  }
-  // public async acceptFriendRequest(payload) {
-  //   return await prisma.friends.update({
-  //     where: {
-  //       AND: [
-  //         {
-  //           friendOfId: payload.sentRequestId,
-  //         },
-  //         {
-  //           friendId: payload.userId,
-  //         },
-  //       ],
-  //     },
-  //     data: {
-  //       requestAccepted: true,
-  //     },
-  //   });
-  // }
-  public async acceptFriendRequest(payload) {
-    const { sentRequestId, userId } = payload;
-
-    return await prisma.friends.updateMany({
-      where: {
-        AND: [{ friendOfId: sentRequestId }, { friendId: userId }],
-      },
-      data: {
+        userId2: data.userId2,
         requestAccepted: true,
       },
     });
   }
-  public async getFriendRequestById(payload) {
+  public async sendFriendList(data) {
     return await prisma.friends.findMany({
       where: {
-        AND: [
+        userId1: data.userId2,
+        requestAccepted: true,
+      },
+    });
+  }
+  public async findMutualFriend(data, acceptedFriendList, sendFriendList) {
+    return await prisma.friends.count({
+      where: {
+        OR: [
           {
-            friendOfId: payload.userId,
+            userId1: data.userId1,
+            userId2: {
+              in: [...acceptedFriendList, ...sendFriendList],
+            },
           },
-          { requestAccepted: false },
+          {
+            userId2: data.userId1,
+            userId1: {
+              in: [...acceptedFriendList, ...sendFriendList],
+            },
+          },
         ],
       },
     });
