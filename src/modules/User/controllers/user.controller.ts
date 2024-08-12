@@ -6,23 +6,6 @@ import userService from "../services/user.service";
 import { send } from "process";
 import { message } from "../../../common/message";
 class UserController {
-  public async createProfileInformationJobs(
-    req: Request,
-    res: Response
-  ): Promise<void> {
-    try {
-      const { userId, designation, company, startedAt, endedAt } = req.body;
-      await UserService.findUserById(userId);
-      const createProfileInformationJobs =
-        await UserService.createProfileInformationJobs(req.body);
-      return sendResponse(res, HttpStatus.OK, "Profile info updated!", {
-        result: createProfileInformationJobs,
-      });
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
   public async updateProfileInformationJobs(
     req: Request,
     res: Response
@@ -118,18 +101,7 @@ class UserController {
       return sendResponse(res, error.statusCode, error);
     }
   }
-  public async seeProfileinfo(req: Request, res: Response): Promise<void> {
-    try {
-      const { userId, profileUserId } = req.body;
-      const seeProfileInfo = await userService.seeProfileInfo(req.body);
-      return sendResponse(res, HttpStatus.OK, "Profile Info Seen!", {
-        result: seeProfileInfo,
-      });
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
+
   public async setBio(req: Request, res: Response): Promise<void> {
     try {
       const setBio = await userService.setBio(req.userId, req.body);

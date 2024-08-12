@@ -6,7 +6,10 @@ import { message } from "../../../common/message";
 class FriendController {
   public async sendFriendRequest(req: Request, res: Response): Promise<void> {
     try {
-      const sendFriendRequest = await friendService.sendFriendRequest(req.body);
+      const sendFriendRequest = await friendService.sendFriendRequest(
+        req.bod,
+        req.userId
+      );
       return sendResponse(
         res,
         HttpStatus.OK,
@@ -21,7 +24,8 @@ class FriendController {
   public async acceptFriendRequest(req: Request, res: Response): Promise<void> {
     try {
       const acceptFriendRequest = await friendService.acceptFriendRequest(
-        req.body
+        req.body,
+        req.userId
       );
       return sendResponse(
         res,

@@ -4,10 +4,6 @@ import userController from "../controllers/user.controller";
 import auth from "../../Auth/middlewares/auth.middleware";
 const routes = express();
 
-routes.post(
-  "/createProfileInformationJobs",
-  UserController.createProfileInformationJobs
-);
 routes.put(
   "/updateProfileInformationJobs",
   UserController.updateProfileInformationJobs
@@ -29,6 +25,5 @@ routes.put(
   UserController.updateProfileInformationMusic
 );
 routes.get("/getUserInfoById", userController.getUserInfoById);
-routes.get("/seeProfileInfo", userController.seeProfileinfo);
 routes.post("/setBio", auth.Auth, userController.setBio);
 export default routes;

@@ -23,17 +23,6 @@ class UserRepository {
     });
   }
 
-  public async createProfileInformationJobs(payload) {
-    return await prisma.profileInformationJobs.create({
-      data: {
-        userId: payload.userId,
-        designation: payload.designation,
-        company: payload.company,
-        startedAt: payload.startedAt,
-        endedAt: payload.endedAt,
-      },
-    });
-  }
   public async updateProfileInformationJobs(updateParam, userId) {
     return await prisma.profileInformationJobs.update({
       where: {
@@ -81,16 +70,7 @@ class UserRepository {
       },
     });
   }
-  public async checkIfFriends(payload) {
-    return await prisma.friends.findMany({
-      where: {
-        AND: [
-          { friendOfId: payload.profileUserId },
-          { friendId: payload.userId },
-        ],
-      },
-    });
-  }
+
   public async showFriendsPost(payload) {
     return await prisma.post.findMany({
       where: {
@@ -118,13 +98,7 @@ class UserRepository {
       },
     });
   }
-  public async findAllFriends(payload) {
-    return await prisma.friends.findMany({
-      where: {
-        friendOfId: payload.profileUserId,
-      },
-    });
-  }
+
   public async setBio(userId, bio) {
     return await prisma.user.update({
       where: {

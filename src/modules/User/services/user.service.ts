@@ -26,14 +26,6 @@ class UserService {
     }
   }
 
-  public async createProfileInformationJobs(payload) {
-    const createProfileInformationJobs =
-      await UserRepository.createProfileInformationJobs(payload);
-    if (!createProfileInformationJobs) {
-      throw new BadRequestError("Something went wrong!");
-    }
-    return createProfileInformationJobs;
-  }
   public async updateProfileInformationJobs(payload) {
     const updateParam: IJOBSUPDATEPARAMS = {};
     if (payload.designation) {
@@ -111,30 +103,7 @@ class UserService {
     }
     return getUserInfoById;
   }
-  public async seeProfileInfo(payload) {
-    const checkIfFriends = await userRepository.checkIfFriends(payload);
-    if (checkIfFriends.length > 0) {
-      const showFriendsPost = await userRepository.showFriendsPost(payload);
-      return showFriendsPost;
-    } else if (checkIfFriends.length == 0) {
-      const findAllFriends = await userRepository.findAllFriends(payload);
-      if (findAllFriends.length > 0) {
-        console.log("findAllFriends", findAllFriends);
-        const isFriend = findAllFriends.find(
-          (friend) => friend.friendOfId === payload.profileUserId
-        );
-        console.log("isFriend", isFriend);
-        if (isFriend) {
-          const showFriendsOfFriendsPost =
-            await userRepository.showFriendsOfFriendsPost(payload);
-          return showFriendsOfFriendsPost;
-        } else {
-          const showPublicPost = await userRepository.showPublicPost(payload);
-          return showPublicPost;
-        }
-      }
-    }
-  }
+
   public async setBio(userId, bio) {
     const setBio = await userRepository.setBio(userId, bio);
     if (!setBio) {
