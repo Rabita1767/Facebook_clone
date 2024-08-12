@@ -28,6 +28,9 @@ class AuthRepository {
       where: {
         email: email,
       },
+      include: {
+        User: true,
+      },
     });
   }
 }

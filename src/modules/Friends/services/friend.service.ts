@@ -1,3 +1,4 @@
+import { error } from "console";
 import BadRequestError from "../../../common/errors/http400Error";
 import HttpStatus from "../../../common/httpStatus";
 import { message } from "../../../common/message";
@@ -9,14 +10,21 @@ class FriendService {
   public async sendFriendRequest(data, userId1) {
     const findReceiver = await userRepository.findUserById(data.userId2);
     if (findReceiver.friendRequestPrivacy === "PUBLIC") {
-      const sendFriendRequest = await friendRepository.sendFriendRequest(
+      const alreadySentRequest = await friendRepository.alreadySentRequest(
         data,
         userId1
       );
-      if (!sendFriendRequest) {
-        throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+      const isCancelled = await friendRepository.isCancelled(data, userId1);
+      if (isCancelled && !alreadySentRequest) {
+        const sendFriendRequest = await friendRepository.sendFriendRequest(
+          data,
+          userId1
+        );
+        if (!sendFriendRequest) {
+          throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+        }
+        return sendFriendRequest;
       }
-      return sendFriendRequest;
     } else {
       const acceptedFriendList = await friendRepository.acceptedFriendList(
         data
@@ -45,10 +53,17 @@ class FriendService {
       data,
       userId2
     );
-    if (!acceptFriendRequest) {
-      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    if (acceptFriendRequest.count === 0) {
+      throw new BadRequestError(message.FRIEND_REQUEST_COULD_NOT_BE_ACCEPTED);
     }
     return acceptFriendRequest;
+  }
+  public async getAllFriends(userId) {
+    const getAllFriends = await friendRepository.getAllFriends(userId);
+    if (!getAllFriends) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    return getAllFriends;
   }
 }
 export default new FriendService();

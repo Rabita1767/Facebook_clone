@@ -21,6 +21,7 @@ class AuthController {
     try {
       const { email, password } = req.body;
       const user = await authService.login(email, password);
+      console.log("user", user);
       const accessToken = await utility.generateAccessToken(user);
       const refreshToken = await utility.generateRefreshToken(user);
       refreshTokens.push(refreshToken);

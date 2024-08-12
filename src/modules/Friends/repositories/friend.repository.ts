@@ -46,13 +46,42 @@ class FriendRepository {
     });
   }
   public async acceptFriendRequest(data, userId2) {
-    return await prisma.friends.update({
+    console.log("userId1", data.userId1);
+    console.log("userId2", userId2);
+    return await prisma.friends.updateMany({
       where: {
         userId1: data.userId1,
         userId2: userId2,
       },
       data: {
         requestAccepted: true,
+      },
+    });
+  }
+  public async getAllFriends(userId) {
+    return await prisma.friends.findMany({
+      where: {
+        OR: [{ userId1: userId }, { userId2: userId }],
+      },
+    });
+  }
+  public async alreadySentRequest(data, userId1) {
+    return await prisma.friends.findFirst({
+      where: {
+        OR: [
+          { userId1: userId1, userId2: data.userId2 },
+          { userId1: data.userId2, userId2: userId1 },
+        ],
+      },
+    });
+  }
+  public async isCancelled(data, userId1) {
+    return await prisma.friends.findFirst({
+      where: {
+        OR: [
+          { userId1: userId1, userId2: data.userId2, isCancelled: true },
+          { userId1: data.userId2, userId2: userId1, isCancelled: true },
+        ],
       },
     });
   }
