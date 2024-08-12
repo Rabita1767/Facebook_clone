@@ -11,5 +11,7 @@ export const message = {
   PROFILE_UPDATED_SUCCESSFULLY: "Profile updated successfully!",
   FRIEND_REQUEST_SENT_SUCCESSFULLY: "Friend request sent successfully!",
   CANT_SEND_FRIEND_REQUEST: "Can't send friend request!",
+  FRIEND_REQUEST_HAS_BEEN_ACCEPTED_SUCCESSFULLY:
+    "Friend request has been accepted successfully!",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };

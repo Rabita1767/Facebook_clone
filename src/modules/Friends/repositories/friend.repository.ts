@@ -1,9 +1,9 @@
 import { prisma } from "../../../config/prisma";
 class FriendRepository {
-  public async sendFriendRequest(data) {
+  public async sendFriendRequest(data, userId1) {
     return await prisma.friends.create({
       data: {
-        userId1: data.userId1,
+        userId1: userId1,
         userId2: data.userId2,
         hasSent: true,
       },
@@ -42,6 +42,17 @@ class FriendRepository {
             },
           },
         ],
+      },
+    });
+  }
+  public async acceptFriendRequest(data, userId2) {
+    return await prisma.friends.update({
+      where: {
+        userId1: data.userId1,
+        userId2: userId2,
+      },
+      data: {
+        requestAccepted: true,
       },
     });
   }

@@ -18,5 +18,21 @@ class FriendController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async acceptFriendRequest(req: Request, res: Response): Promise<void> {
+    try {
+      const acceptFriendRequest = await friendService.acceptFriendRequest(
+        req.body
+      );
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.FRIEND_REQUEST_HAS_BEEN_ACCEPTED_SUCCESSFULLY,
+        acceptFriendRequest
+      );
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
 }
 export default new FriendController();

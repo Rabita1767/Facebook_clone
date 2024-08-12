@@ -7,4 +7,9 @@ routes.post(
   auth.Auth,
   friendController.sendFriendRequest
 );
+routes.post(
+  "/acceptFriendRequest",
+  auth.Auth,
+  friendController.acceptFriendRequest
+);
 export default routes;
