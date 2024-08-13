@@ -64,7 +64,7 @@ class UserRepository {
     });
   }
   public async getUserInfoById(userId) {
-    return await prisma.user.findFirst({
+    return await prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -112,6 +112,16 @@ class UserRepository {
       },
       data: {
         bio: bio,
+      },
+    });
+  }
+  public async setFriendRequestPrivacy(data, userId) {
+    return await prisma.user.updateMany({
+      where: {
+        id: userId,
+      },
+      data: {
+        friendRequestPrivacy: data.friendRequestPrivacy,
       },
     });
   }

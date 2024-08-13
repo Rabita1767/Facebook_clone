@@ -115,5 +115,25 @@ class UserController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async setFriendRequestPrivacy(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    try {
+      const setFriendRequestPrivacy = await userService.setFriendRequestPrivacy(
+        req.body,
+        req.userId
+      );
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.FRIEND_REQUEST_PRIVACY_UPDATED,
+        setFriendRequestPrivacy
+      );
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
 }
 export default new UserController();

@@ -26,4 +26,9 @@ routes.put(
 );
 routes.get("/getUserInfoById", userController.getUserInfoById);
 routes.post("/setBio", auth.Auth, userController.setBio);
+routes.post(
+  "/setFriendRequestPrivacy",
+  auth.Auth,
+  userController.setFriendRequestPrivacy
+);
 export default routes;

@@ -111,5 +111,13 @@ class UserService {
     }
     return setBio;
   }
+  public async setFriendRequestPrivacy(data, userId) {
+    const setFriendRequestPrivacy =
+      await userRepository.setFriendRequestPrivacy(data, userId);
+    if (setFriendRequestPrivacy.count === 0) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    return setFriendRequestPrivacy;
+  }
 }
 export default new UserService();
