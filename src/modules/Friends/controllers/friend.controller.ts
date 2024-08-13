@@ -52,5 +52,17 @@ class FriendController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async cancelRequest(req: Request, res: Response): Promise<void> {
+    const cancelRequest = await friendService.cancelRequest(
+      req.body,
+      req.userId
+    );
+    return sendResponse(
+      res,
+      HttpStatus.OK,
+      message.REQUEST_CANCELLED_SUCCESSFULLY,
+      cancelRequest
+    );
+  }
 }
 export default new FriendController();

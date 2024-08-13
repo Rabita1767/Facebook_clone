@@ -13,4 +13,5 @@ routes.post(
   friendController.acceptFriendRequest
 );
 routes.get("/getAllFriends", auth.Auth, friendController.getAllFriends);
+routes.post("/cancelRequest", auth.Auth, friendController.cancelRequest);
 export default routes;

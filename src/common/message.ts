@@ -16,5 +16,6 @@ export const message = {
   FRIEND_LIST_HAS_BEEN_FETCHED_SUCCESSFULLY:
     "Friend list has been fetched successfully!",
   FRIEND_REQUEST_COULD_NOT_BE_ACCEPTED: "Friend request could not be accepted!",
+  REQUEST_CANCELLED_SUCCESSFULLY: "Request cancelled successfully!",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };

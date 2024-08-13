@@ -1,11 +1,7 @@
-import { error } from "console";
 import BadRequestError from "../../../common/errors/http400Error";
-import HttpStatus from "../../../common/httpStatus";
 import { message } from "../../../common/message";
-import sendResponse from "../../Auth/utils/response";
 import userRepository from "../../User/repositories/user.repository";
 import friendRepository from "../repositories/friend.repository";
-import FriendRepository from "../repositories/friend.repository";
 class FriendService {
   public async sendFriendRequest(data, userId1) {
     const findReceiver = await userRepository.findUserById(data.userId2);
@@ -64,6 +60,13 @@ class FriendService {
       throw new BadRequestError(message.SOMETHING_WENT_WRONG);
     }
     return getAllFriends;
+  }
+  public async cancelRequest(data, userId) {
+    const cancelRequest = await friendRepository.cancelRequest(data, userId);
+    if (cancelRequest.count == 0) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    return cancelRequest;
   }
 }
 export default new FriendService();

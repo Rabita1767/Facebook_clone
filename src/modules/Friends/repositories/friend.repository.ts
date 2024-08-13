@@ -85,5 +85,16 @@ class FriendRepository {
       },
     });
   }
+  public async cancelRequest(data, userId) {
+    return await prisma.friends.updateMany({
+      where: {
+        userId1: data.userId1,
+        userId2: userId,
+      },
+      data: {
+        isCancelled: true,
+      },
+    });
+  }
 }
 export default new FriendRepository();
