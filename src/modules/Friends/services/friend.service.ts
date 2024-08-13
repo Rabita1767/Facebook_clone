@@ -1,4 +1,3 @@
-import { error } from "console";
 import BadRequestError from "../../../common/errors/http400Error";
 import { message } from "../../../common/message";
 import userRepository from "../../User/repositories/user.repository";
@@ -46,14 +45,33 @@ class FriendService {
         sendFriendList
       );
       if (findMutualFriend > 0) {
-        const sendFriendRequest = await friendRepository.sendFriendRequest(
+        const alreadySentRequest = await friendRepository.alreadySentRequest(
           data,
           userId1
         );
-        if (!sendFriendRequest) {
-          throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+        if (
+          alreadySentRequest !== null &&
+          alreadySentRequest.isCancelled === true
+        ) {
+          const sendFriendRequest = await friendRepository.updateFriendRequest(
+            data,
+            userId1
+          );
+          if (sendFriendRequest.count === 0) {
+            throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+          }
+          return sendFriendRequest;
+        } else if (alreadySentRequest === null) {
+          const sendFriendRequest = await friendRepository.sendFriendRequest(
+            data,
+            userId1
+          );
+          if (!sendFriendRequest) {
+            throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+          }
+          return sendFriendRequest;
         }
-        return sendFriendRequest;
+        throw new BadRequestError(message.FRIEND_REQUEST_HAS_ALREADY_BEEN_SENT);
       }
       throw new BadRequestError(message.CANT_SEND_FRIEND_REQUEST);
     }
@@ -76,11 +94,16 @@ class FriendService {
     return getAllFriends;
   }
   public async cancelRequest(data, userId) {
-    const cancelRequest = await friendRepository.cancelRequest(data, userId);
-    if (cancelRequest.count == 0) {
-      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    const findRequest = await friendRepository.findRequest(data, userId);
+    if (findRequest.requestAccepted === false) {
+      const cancelRequest = await friendRepository.cancelRequest(data, userId);
+      if (cancelRequest.count == 0) {
+        throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+      }
+      return cancelRequest;
+    } else {
+      throw new BadRequestError(message.CANT_CANCEL_FRIEND_REQUEST);
     }
-    return cancelRequest;
   }
 }
 export default new FriendService();

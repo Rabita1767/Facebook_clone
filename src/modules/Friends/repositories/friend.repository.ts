@@ -109,5 +109,13 @@ class FriendRepository {
       },
     });
   }
+  public async findRequest(data, userId) {
+    return await prisma.friends.findFirst({
+      where: {
+        userId1: data.userId1,
+        userId2: userId,
+      },
+    });
+  }
 }
 export default new FriendRepository();

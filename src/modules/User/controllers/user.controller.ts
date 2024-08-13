@@ -91,8 +91,7 @@ class UserController {
 
   public async getUserInfoById(req: Request, res: Response) {
     try {
-      const { userId } = req.body;
-      const getUserInfoById = await userService.getUserInfoById(userId);
+      const getUserInfoById = await userService.getUserInfoById(req.userId);
       return sendResponse(res, HttpStatus.OK, "User info by Id!", {
         result: getUserInfoById,
       });

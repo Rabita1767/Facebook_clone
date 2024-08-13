@@ -64,9 +64,15 @@ class UserRepository {
     });
   }
   public async getUserInfoById(userId) {
-    return await prisma.user.findUnique({
+    return await prisma.user.findFirst({
       where: {
         id: userId,
+      },
+      include: {
+        auth: true,
+        Post: true,
+        Friends: true,
+        FriendOf: true,
       },
     });
   }

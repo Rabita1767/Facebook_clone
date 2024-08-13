@@ -99,7 +99,7 @@ class UserService {
   public async getUserInfoById(userId) {
     const getUserInfoById = await UserRepository.getUserInfoById(userId);
     if (!getUserInfoById) {
-      throw new BadRequestError("Something went wrong!");
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
     }
     return getUserInfoById;
   }

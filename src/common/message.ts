@@ -18,5 +18,6 @@ export const message = {
   FRIEND_REQUEST_COULD_NOT_BE_ACCEPTED: "Friend request could not be accepted!",
   REQUEST_CANCELLED_SUCCESSFULLY: "Request cancelled successfully!",
   FRIEND_REQUEST_HAS_ALREADY_BEEN_SENT: "Friend request has already been sent!",
+  CANT_CANCEL_FRIEND_REQUEST: "Can't cancel friend request!",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };
