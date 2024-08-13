@@ -24,7 +24,7 @@ routes.put(
   "/updateProfileInformationMusic",
   UserController.updateProfileInformationMusic
 );
-routes.get("/getUserInfoById", userController.getUserInfoById);
+routes.get("/getUserInfoById", auth.Auth, userController.getUserInfoById);
 routes.post("/setBio", auth.Auth, userController.setBio);
 routes.post(
   "/setFriendRequestPrivacy",

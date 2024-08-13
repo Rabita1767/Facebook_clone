@@ -71,8 +71,8 @@ class UserRepository {
       include: {
         auth: true,
         Post: true,
-        Friends: true,
         FriendOf: true,
+        Friends: true,
       },
     });
   }
