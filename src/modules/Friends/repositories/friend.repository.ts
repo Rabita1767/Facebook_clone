@@ -9,6 +9,19 @@ class FriendRepository {
       },
     });
   }
+  public async updateFriendRequest(data, userId1) {
+    return await prisma.friends.updateMany({
+      where: {
+        OR: [
+          { userId1: userId1, userId2: data.userId2 },
+          { userId1: data.userId2, userId2: userId1 },
+        ],
+      },
+      data: {
+        isCancelled: false,
+      },
+    });
+  }
   public async acceptedFriendList(data) {
     return await prisma.friends.findMany({
       where: {

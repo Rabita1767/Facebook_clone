@@ -1,3 +1,4 @@
+import { error } from "console";
 import BadRequestError from "../../../common/errors/http400Error";
 import { message } from "../../../common/message";
 import userRepository from "../../User/repositories/user.repository";
@@ -10,8 +11,19 @@ class FriendService {
         data,
         userId1
       );
-      const isCancelled = await friendRepository.isCancelled(data, userId1);
-      if (isCancelled && !alreadySentRequest) {
+      if (
+        alreadySentRequest !== null &&
+        alreadySentRequest.isCancelled === true
+      ) {
+        const sendFriendRequest = await friendRepository.updateFriendRequest(
+          data,
+          userId1
+        );
+        if (sendFriendRequest.count === 0) {
+          throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+        }
+        return sendFriendRequest;
+      } else if (alreadySentRequest === null) {
         const sendFriendRequest = await friendRepository.sendFriendRequest(
           data,
           userId1
@@ -21,6 +33,8 @@ class FriendService {
         }
         return sendFriendRequest;
       }
+      throw new BadRequestError(message.FRIEND_REQUEST_HAS_ALREADY_BEEN_SENT);
+      // const isCancelled = await friendRepository.isCancelled(data, userId1);
     } else {
       const acceptedFriendList = await friendRepository.acceptedFriendList(
         data
