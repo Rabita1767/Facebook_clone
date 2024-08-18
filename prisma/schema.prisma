@@ -201,6 +201,7 @@ model Friends {
   requestAccepted Boolean @default(false)
   hasSent         Boolean @default(false)
   isCancelled     Boolean @default(false)
+  removedFromList Boolean @default(false)
 }
 
 model BlockList {

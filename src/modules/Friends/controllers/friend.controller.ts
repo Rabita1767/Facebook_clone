@@ -3,6 +3,7 @@ import sendResponse from "../../Auth/utils/response";
 import HttpStatus from "../../../common/httpStatus";
 import friendService from "../services/friend.service";
 import { message } from "../../../common/message";
+import { send } from "process";
 class FriendController {
   public async sendFriendRequest(req: Request, res: Response): Promise<void> {
     try {
@@ -63,6 +64,15 @@ class FriendController {
       message.REQUEST_CANCELLED_SUCCESSFULLY,
       cancelRequest
     );
+  }
+  public async removeFromFriendList(req: Request, res: Response): Promise<void> {
+    try {
+      const removeFromFriendList = await friendService.removeFromFriendList(req.userId, req.body);
+      return sendResponse(res, HttpStatus.OK, message.FRIEND_HAS_BEEN_REMOVED_SUCCESSFULLY, removeFromFriendList);
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error)
+    }
   }
 }
 export default new FriendController();

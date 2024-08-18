@@ -117,5 +117,23 @@ class FriendRepository {
       },
     });
   }
+  public async findIfFriends(userId, data) {
+    return await prisma.friends.findFirst({
+      where: {
+        OR: [
+          {
+            userId1: userId,
+            userId2: data.userId,
+            requestAccepted: true
+          },
+          {
+            userId1: data.userId,
+            userId2: userId,
+            requestAccepted: true
+          }
+        ]
+      }
+    })
+  }
 }
 export default new FriendRepository();
