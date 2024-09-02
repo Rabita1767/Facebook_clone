@@ -1,13 +1,11 @@
 import { IPOST, IUPDATEPOST } from "../types/post.interface";
 import postRepository from "../repositories/post.repository";
 import BadRequestError from "../../../common/errors/http400Error";
+import { message } from "../../../common/message";
+import friendRepository from "../../Friends/repositories/friend.repository";
 class postService {
-  public async createPost(payload: IPOST, files) {
-    const findUser = await postRepository.findUserById(payload.userId);
-    if (!findUser) {
-      throw new BadRequestError("User not found");
-    }
-    const createPost = await postRepository.createPost(payload, files);
+  public async createPost(userId, payload: IPOST, files) {
+    const createPost = await postRepository.createPost(userId, payload, files);
     console.log("service layer", files);
     if (!createPost) {
       throw new BadRequestError("Post not found");
@@ -17,7 +15,7 @@ class postService {
   public async updatePost(payload: IPOST, file: any) {
     const findPost = await postRepository.findPostById(payload.postId);
     if (!findPost) {
-      throw new BadRequestError("Post not found");
+      throw new BadRequestError(message.POST_NOT_FOUND);
     }
     const updateParams: IUPDATEPOST = {};
     if (payload.content) {
@@ -40,13 +38,7 @@ class postService {
     }
     return updatePost;
   }
-  public async getPostsById(userId) {
-    const getPostsById = await postRepository.getPostsById(userId);
-    if (!getPostsById) {
-      throw new BadRequestError("Something went wrong!Please Try again later");
-    }
-    return getPostsById;
-  }
+
   public async setPostPrivacy(payload) {
     const setPostPrivacy = await postRepository.setPostPrivacy(payload);
     if (!setPostPrivacy) {
@@ -67,6 +59,36 @@ class postService {
       throw new BadRequestError("Something went wrong!");
     }
     return deletePostById;
+  }
+  public async getPostsById(userId, data) {
+    if (userId === data.userId) {
+      const getPostsById = await postRepository.getPostsById(userId);
+      return getPostsById;
+    }
+    const findIfFriends = await friendRepository.findIfFriends(
+      userId,
+      data.userId
+    );
+    if (findIfFriends !== null) {
+      const getPostsById = await postRepository.getPostsByIfFriends(userId);
+      return getPostsById;
+    }
+    const acceptedFriendList = await friendRepository.acceptedFriendList(
+      data.userId
+    );
+    const sendFriendList = await friendRepository.sendFriendList(data.userId);
+    const findIfMutualFriend = await friendRepository.findMutualFriend(
+      userId,
+      acceptedFriendList,
+      sendFriendList
+    );
+    if (findIfMutualFriend > 0) {
+      const getPostsById = await postRepository.getPostsByIdFriendsOfFriends(
+        data.userId
+      );
+      return getPostsById;
+    }
+    const getPostsById = await postRepository.getPostsByIdPublic(data.userId);
   }
 }
 export default new postService();

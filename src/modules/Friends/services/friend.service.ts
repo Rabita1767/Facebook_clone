@@ -12,7 +12,8 @@ class FriendService {
       );
       if (
         alreadySentRequest !== null &&
-        (alreadySentRequest.isCancelled === true || alreadySentRequest.removedFromList === true)
+        (alreadySentRequest.isCancelled === true ||
+          alreadySentRequest.removedFromList === true)
       ) {
         const sendFriendRequest = await friendRepository.updateFriendRequest(
           data,
@@ -36,11 +37,13 @@ class FriendService {
       // const isCancelled = await friendRepository.isCancelled(data, userId1);
     } else {
       const acceptedFriendList = await friendRepository.acceptedFriendList(
-        data
+        data.userId2
       );
-      const sendFriendList = await friendRepository.sendFriendList(data);
+      const sendFriendList = await friendRepository.sendFriendList(
+        data.userId2
+      );
       const findMutualFriend = await friendRepository.findMutualFriend(
-        data,
+        data.userId1,
         acceptedFriendList,
         sendFriendList
       );
@@ -51,7 +54,8 @@ class FriendService {
         );
         if (
           alreadySentRequest !== null &&
-          (alreadySentRequest.isCancelled === true || alreadySentRequest.removedFromList === true)
+          (alreadySentRequest.isCancelled === true ||
+            alreadySentRequest.removedFromList === true)
         ) {
           const sendFriendRequest = await friendRepository.updateFriendRequest(
             data,
@@ -108,10 +112,10 @@ class FriendService {
   public async removeFromFriendList(userId, data) {
     const findInfo = await friendRepository.findIfFriends(userId, data);
     if (findInfo && findInfo.removedFromList === false) {
-      findInfo.removedFromList = true
+      findInfo.removedFromList = true;
       return findInfo;
     }
-    throw new BadRequestError(message.SOMETHING_WENT_WRONG)
+    throw new BadRequestError(message.SOMETHING_WENT_WRONG);
   }
 }
 export default new FriendService();

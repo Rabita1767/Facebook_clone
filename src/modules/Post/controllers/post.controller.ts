@@ -3,10 +3,15 @@ import sendResponse from "../../Auth/utils/response";
 import postService from "../services/post.service";
 import HttpStatus from "../../../common/httpStatus";
 import utility from "../../Auth/utils/utility";
+import { message } from "../../../common/message";
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {
     try {
-      const createPost = await postService.createPost(req.body, req.files);
+      const createPost = await postService.createPost(
+        req.userId,
+        req.body,
+        req.files
+      );
       console.log("check file", req.files);
       return sendResponse(res, HttpStatus.OK, "Post created!", {
         result: createPost,
@@ -21,18 +26,6 @@ class PostController {
       const updatedPost = await postService.updatePost(req.body, req.file);
       return sendResponse(res, HttpStatus.OK, "Post updated!", {
         result: updatedPost,
-      });
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
-  public async getPostsById(req: Request, res: Response): Promise<void> {
-    try {
-      const { userId } = req.body;
-      const getPostsById = await postService.getPostsById(userId);
-      return sendResponse(res, HttpStatus.OK, "Posts by Id!", {
-        result: getPostsById,
       });
     } catch (error) {
       console.log(error);
@@ -56,6 +49,20 @@ class PostController {
       const { postId } = req.body;
       const deletePostById = await postService.deletePostById(postId);
       return sendResponse(res, HttpStatus.OK, "Post deleted successfully!");
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async getPostsById(req: Request, res: Response): Promise<void> {
+    try {
+      const getPostsById = await postService.getPostsById(req.userId, req.body);
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.POST_FETCHED_SUCCESSFULLY,
+        getPostsById
+      );
     } catch (error) {
       console.log(error);
       return sendResponse(res, error.statusCode, error);

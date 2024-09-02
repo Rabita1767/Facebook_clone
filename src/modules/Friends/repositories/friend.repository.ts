@@ -22,34 +22,34 @@ class FriendRepository {
       },
     });
   }
-  public async acceptedFriendList(data) {
+  public async acceptedFriendList(userId2) {
     return await prisma.friends.findMany({
       where: {
-        userId2: data.userId2,
+        userId2: userId2,
         requestAccepted: true,
       },
     });
   }
-  public async sendFriendList(data) {
+  public async sendFriendList(userId2) {
     return await prisma.friends.findMany({
       where: {
-        userId1: data.userId2,
+        userId1: userId2,
         requestAccepted: true,
       },
     });
   }
-  public async findMutualFriend(data, acceptedFriendList, sendFriendList) {
+  public async findMutualFriend(userId1, acceptedFriendList, sendFriendList) {
     return await prisma.friends.count({
       where: {
         OR: [
           {
-            userId1: data.userId1,
+            userId1: userId1,
             userId2: {
               in: [...acceptedFriendList, ...sendFriendList],
             },
           },
           {
-            userId2: data.userId1,
+            userId2: userId1,
             userId1: {
               in: [...acceptedFriendList, ...sendFriendList],
             },
@@ -124,16 +124,16 @@ class FriendRepository {
           {
             userId1: userId,
             userId2: data.userId,
-            requestAccepted: true
+            requestAccepted: true,
           },
           {
             userId1: data.userId,
             userId2: userId,
-            requestAccepted: true
-          }
-        ]
-      }
-    })
+            requestAccepted: true,
+          },
+        ],
+      },
+    });
   }
 }
 export default new FriendRepository();

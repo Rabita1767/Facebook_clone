@@ -21,5 +21,7 @@ export const message = {
   CANT_CANCEL_FRIEND_REQUEST: "Can't cancel friend request!",
   FRIEND_REQUEST_PRIVACY_UPDATED: "Friend Request privacy has been updated",
   FRIEND_HAS_BEEN_REMOVED_SUCCESSFULLY: "Friend has been removed successfully!",
+  POST_NOT_FOUND: "Post not found",
+  POST_FETCHED_SUCCESSFULLY: "Post fetched successfully!",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };

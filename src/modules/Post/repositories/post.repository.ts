@@ -14,12 +14,12 @@ class postRepository {
       },
     });
   }
-  public async createPost(payload, files) {
+  public async createPost(userId, payload, files) {
     console.log("repository layer", files);
     const mediaFiles = files.map((files) => files.filename);
     return prisma.post.create({
       data: {
-        userId: payload.userId,
+        userId: userId,
         content: payload.content,
         media: mediaFiles,
         privacy: payload.privacy,
@@ -34,13 +34,6 @@ class postRepository {
         id: postId,
       },
       data: updateParams,
-    });
-  }
-  public async getPostsById(userId) {
-    return await prisma.post.findMany({
-      where: {
-        userId: userId,
-      },
     });
   }
   public async setPostPrivacy(data) {
@@ -107,6 +100,41 @@ class postRepository {
       },
       data: {
         isDeleted: true,
+      },
+    });
+  }
+  public async getPostsById(userId) {
+    return await prisma.post.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+  }
+  public async getPostsByIfFriends(userId) {
+    return await prisma.post.findMany({
+      where: {
+        userId: userId,
+        privacy: {
+          in: ["PUBLIC", "FRIENDS", "FRIENDS_OF_FRIENDS"],
+        },
+      },
+    });
+  }
+  public async getPostsByIdFriendsOfFriends(userId) {
+    return await prisma.post.findMany({
+      where: {
+        userId: userId,
+        privacy: {
+          in: ["PUBLIC", "FRIENDS_OF_FRIENDS"],
+        },
+      },
+    });
+  }
+  public async getPostsByIdPublic(userId) {
+    return await prisma.post.findMany({
+      where: {
+        userId: userId,
+        privacy: "PUBLIC",
       },
     });
   }
