@@ -23,5 +23,8 @@ export const message = {
   FRIEND_HAS_BEEN_REMOVED_SUCCESSFULLY: "Friend has been removed successfully!",
   POST_NOT_FOUND: "Post not found",
   POST_FETCHED_SUCCESSFULLY: "Post fetched successfully!",
+  POST_REMOVED_SUCCESSFULLY: "Post removed successfully!",
+  POST_NOT_FOUND_WITH_THE_ASSOCIATED_USERID:
+    "Post not found with the associated user id",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };

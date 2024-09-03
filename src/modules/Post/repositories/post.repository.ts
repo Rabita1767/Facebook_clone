@@ -14,7 +14,7 @@ class postRepository {
       },
     });
   }
-  public async createPost(userId, payload, files) {
+  public async createPost(userId, payload, files = []) {
     console.log("repository layer", files);
     const mediaFiles = files.map((files) => files.filename);
     return prisma.post.create({
@@ -107,6 +107,7 @@ class postRepository {
     return await prisma.post.findMany({
       where: {
         userId: userId,
+        isDeleted: false,
       },
     });
   }
@@ -117,6 +118,7 @@ class postRepository {
         privacy: {
           in: ["PUBLIC", "FRIENDS", "FRIENDS_OF_FRIENDS"],
         },
+        isDeleted: false,
       },
     });
   }
@@ -135,6 +137,14 @@ class postRepository {
       where: {
         userId: userId,
         privacy: "PUBLIC",
+      },
+    });
+  }
+  public async removePostById(userId, postId) {
+    return await prisma.post.delete({
+      where: {
+        userId: userId,
+        id: postId,
       },
     });
   }

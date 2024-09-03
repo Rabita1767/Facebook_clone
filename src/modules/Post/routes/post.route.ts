@@ -12,5 +12,6 @@ routes.post(
 routes.put("/updatePost", postController.updatePost);
 routes.patch("/setPostPrivacy", postController.setPostPrivacy);
 routes.get("/getPostsById", auth.Auth, postController.getPostsById);
+routes.delete("/removePostById", auth.Auth, postController.removePostById);
 
 export default routes;

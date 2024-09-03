@@ -38,20 +38,20 @@ class FriendRepository {
       },
     });
   }
-  public async findMutualFriend(userId1, acceptedFriendList, sendFriendList) {
+  public async findMutualFriend(userId1, userId1Array, userId2Array) {
     return await prisma.friends.count({
       where: {
         OR: [
           {
             userId1: userId1,
             userId2: {
-              in: [...acceptedFriendList, ...sendFriendList],
+              in: [...userId1Array, ...userId2Array],
             },
           },
           {
             userId2: userId1,
             userId1: {
-              in: [...acceptedFriendList, ...sendFriendList],
+              in: [...userId1Array, ...userId2Array],
             },
           },
         ],
@@ -117,17 +117,17 @@ class FriendRepository {
       },
     });
   }
-  public async findIfFriends(userId, data) {
+  public async findIfFriends(userId, friendId) {
     return await prisma.friends.findFirst({
       where: {
         OR: [
           {
             userId1: userId,
-            userId2: data.userId,
+            userId2: friendId,
             requestAccepted: true,
           },
           {
-            userId1: data.userId,
+            userId1: friendId,
             userId2: userId,
             requestAccepted: true,
           },

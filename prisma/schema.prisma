@@ -132,7 +132,7 @@ model Post {
   user          User            @relation(fields: [userId], references: [id])
   userId        String
   content       String?
-  media         String[]
+  media         String[]        @default([])
   privacy       privacy         @default(PUBLIC)
   checkIn       String?
   lifeEvent     String?

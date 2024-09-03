@@ -70,25 +70,43 @@ class postService {
       data.userId
     );
     if (findIfFriends !== null) {
-      const getPostsById = await postRepository.getPostsByIfFriends(userId);
+      const getPostsById = await postRepository.getPostsByIfFriends(
+        data.userId
+      );
       return getPostsById;
     }
     const acceptedFriendList = await friendRepository.acceptedFriendList(
       data.userId
     );
+    const userId1Array = acceptedFriendList.map((friend) => friend.userId1);
     const sendFriendList = await friendRepository.sendFriendList(data.userId);
+    const userId2Array = sendFriendList.map((friend) => friend.userId2);
     const findIfMutualFriend = await friendRepository.findMutualFriend(
       userId,
-      acceptedFriendList,
-      sendFriendList
+      userId1Array,
+      userId2Array
     );
     if (findIfMutualFriend > 0) {
+      console.log("check if condition meet");
       const getPostsById = await postRepository.getPostsByIdFriendsOfFriends(
         data.userId
       );
       return getPostsById;
     }
     const getPostsById = await postRepository.getPostsByIdPublic(data.userId);
+    return getPostsById;
+  }
+  public async removePostById(userId, data) {
+    const removePostById = await postRepository.removePostById(
+      userId,
+      data.postId
+    );
+    if (!removePostById) {
+      throw new BadRequestError(
+        message.POST_NOT_FOUND_WITH_THE_ASSOCIATED_USERID
+      );
+    }
+    return removePostById;
   }
 }
 export default new postService();

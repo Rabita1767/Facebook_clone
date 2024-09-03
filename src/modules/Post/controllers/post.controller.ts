@@ -68,5 +68,22 @@ class PostController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async removePostById(req: Request, res: Response): Promise<void> {
+    try {
+      const removePostById = await postService.removePostById(
+        req.userId,
+        req.body
+      );
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.POST_REMOVED_SUCCESSFULLY,
+        removePostById
+      );
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
 }
 export default new PostController();

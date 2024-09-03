@@ -42,10 +42,12 @@ class FriendService {
       const sendFriendList = await friendRepository.sendFriendList(
         data.userId2
       );
+      const userId1Array = acceptedFriendList.map((friend) => friend.userId1);
+      const userId2Array = sendFriendList.map((friend) => friend.userId2);
       const findMutualFriend = await friendRepository.findMutualFriend(
         data.userId1,
-        acceptedFriendList,
-        sendFriendList
+        userId1Array,
+        userId2Array
       );
       if (findMutualFriend > 0) {
         const alreadySentRequest = await friendRepository.alreadySentRequest(
@@ -110,7 +112,10 @@ class FriendService {
     }
   }
   public async removeFromFriendList(userId, data) {
-    const findInfo = await friendRepository.findIfFriends(userId, data);
+    const findInfo = await friendRepository.findIfFriends(
+      userId,
+      data.friendId
+    );
     if (findInfo && findInfo.removedFromList === false) {
       findInfo.removedFromList = true;
       return findInfo;
