@@ -44,16 +44,6 @@ class PostController {
       return sendResponse(res, error.statusCode, error);
     }
   }
-  public async deletePostById(req: Request, res: Response): Promise<void> {
-    try {
-      const { postId } = req.body;
-      const deletePostById = await postService.deletePostById(postId);
-      return sendResponse(res, HttpStatus.OK, "Post deleted successfully!");
-    } catch (error) {
-      console.log(error);
-      return sendResponse(res, error.statusCode, error);
-    }
-  }
   public async getPostsById(req: Request, res: Response): Promise<void> {
     try {
       const getPostsById = await postService.getPostsById(req.userId, req.body);

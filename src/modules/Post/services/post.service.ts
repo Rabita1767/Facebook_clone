@@ -53,13 +53,6 @@ class postService {
     }
     return findPostByPostId;
   }
-  public async deletePostById(postId) {
-    const deletePostById = await postRepository.deletePostById(postId);
-    if (!deletePostById) {
-      throw new BadRequestError("Something went wrong!");
-    }
-    return deletePostById;
-  }
   public async getPostsById(userId, data) {
     if (userId === data.userId) {
       const getPostsById = await postRepository.getPostsById(userId);
