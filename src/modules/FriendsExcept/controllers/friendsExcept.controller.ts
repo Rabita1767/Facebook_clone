@@ -16,8 +16,18 @@ class FriendsExceptController {
     }
     public async removeFromFriendsExcept(req: Request, res: Response): Promise<void> {
         try {
-            const removeFromFriendsExcept = await friendsExceptService.removeFromFriendsExcept(req.userId, req.body);
+            const removeFromFriendsExcept = await friendsExceptService.removeFromFriendsExcept(req.body);
             return sendResponse(res, HttpStatus.OK, message.REMOVED_FROM_FRIENDS_EXCEPT_LIST, removeFromFriendsExcept);
+
+        } catch (error) {
+            console.log(error);
+            return sendResponse(res, error.statusCode, error);
+        }
+    }
+    public async getAllFriendsExceptList(req: Request, res: Response): Promise<void> {
+        try {
+            const getAllFriendsExceptList = await friendsExceptService.getAllFriendsExceptList(req.userId);
+            return sendResponse(res, HttpStatus.OK, message.FRIENDS_EXCEPT_LIST_FETCHED_SUCCESSFULLY, getAllFriendsExceptList)
 
         } catch (error) {
             console.log(error);

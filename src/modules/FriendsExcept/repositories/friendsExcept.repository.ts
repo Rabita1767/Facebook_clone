@@ -20,6 +20,13 @@ class FriendsExceptRepository {
             }
         })
     }
+    public async getAllFriendsExceptList(userId) {
+        return await prisma.friendsExcept.findMany({
+            where: {
+                userId: userId
+            }
+        })
+    }
 
 }
 export default new FriendsExceptRepository();

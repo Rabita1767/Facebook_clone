@@ -24,6 +24,13 @@ class FriendsExceptService {
         }
         return removeFromFriendsExcept;
     }
+    public async getAllFriendsExceptList(userId) {
+        const getAllFriendsExceptList = await friendsExceptRepository.getAllFriendsExceptList(userId);
+        if (!getAllFriendsExceptList) {
+            throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+        }
+        return getAllFriendsExceptList;
+    }
 
 }
 export default new FriendsExceptService();

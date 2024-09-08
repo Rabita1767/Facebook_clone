@@ -29,5 +29,6 @@ export const message = {
   USER_ADDED_TO_THE_FRIENDS_EXCEPT_LIST: "User added successfully to the list!",
   CANT_BE_ADDED_TO_THE_LIST: "Can not add the user to the list",
   REMOVED_FROM_FRIENDS_EXCEPT_LIST: "User is removed from friends except list",
+  FRIENDS_EXCEPT_LIST_FETCHED_SUCCESSFULLY: "Friends except list fetched successfully",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };

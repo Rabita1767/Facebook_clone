@@ -3,6 +3,7 @@ import postRepository from "../repositories/post.repository";
 import BadRequestError from "../../../common/errors/http400Error";
 import { message } from "../../../common/message";
 import friendRepository from "../../Friends/repositories/friend.repository";
+import friendsExceptRepository from "../../FriendsExcept/repositories/friendsExcept.repository";
 class postService {
   public async createPost(userId, payload: IPOST, files) {
     const createPost = await postRepository.createPost(userId, payload, files);
@@ -63,6 +64,18 @@ class postService {
       data.userId
     );
     if (findIfFriends !== null) {
+      const getAllFriendsExcept = await friendsExceptRepository.getAllFriendsExceptList(data.userId);
+      const getAllFriends = await friendRepository.getAllFriends(data.userId);
+      const friendIds = getAllFriends.map(item => item.id);
+      const frindsExceptIds = getAllFriendsExcept.map(item => item.id);
+      const filteredFriendIds = friendIds.filter(id => !frindsExceptIds.includes(id));
+      if (filteredFriendIds.includes(userId)) {
+        const getPostsByIdFriendsExcept = await postRepository.getPostsByIdFriendsExcept(data.userId);
+        if (!getPostsByIdFriendsExcept) {
+          throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+        }
+        return getPostsByIdFriendsExcept;
+      }
       const getPostsById = await postRepository.getPostsByIfFriends(
         data.userId
       );
@@ -86,6 +99,7 @@ class postService {
       );
       return getPostsById;
     }
+
     const getPostsById = await postRepository.getPostsByIdPublic(data.userId);
     return getPostsById;
   }

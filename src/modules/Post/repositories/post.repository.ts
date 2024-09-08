@@ -148,5 +148,15 @@ class postRepository {
       },
     });
   }
+  public async getPostsByIdFriendsExcept(userId) {
+    return await prisma.post.findMany({
+      where: {
+        userId: userId,
+        privacy: {
+          in: ["PUBLIC", "FRIENDS_EXCEPT", "FRIENDS", "FRIENDS_OF_FRIENDS"]
+        }
+      }
+    })
+  }
 }
 export default new postRepository();
