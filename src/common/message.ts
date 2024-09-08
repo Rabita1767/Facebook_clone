@@ -26,5 +26,8 @@ export const message = {
   POST_REMOVED_SUCCESSFULLY: "Post removed successfully!",
   POST_NOT_FOUND_WITH_THE_ASSOCIATED_USERID:
     "Post not found with the associated user id",
+  USER_ADDED_TO_THE_FRIENDS_EXCEPT_LIST: "User added successfully to the list!",
+  CANT_BE_ADDED_TO_THE_LIST: "Can not add the user to the list",
+  REMOVED_FROM_FRIENDS_EXCEPT_LIST: "User is removed from friends except list",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };

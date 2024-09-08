@@ -53,6 +53,8 @@ model User {
   profilePicture              profilePicture[]
   coverPhoto                  coverPhoto[]
   friendRequestPrivacy        friendRequestPrivacy          @default(PUBLIC)
+  friendsExceptUserId         friendsExcept[]               @relation("userId")
+  friendsExceptFriendsId      friendsExcept[]               @relation("friendsId")
 }
 
 model ProfileInformationBasic {
@@ -251,6 +253,17 @@ model coverPhoto {
   isDeleted Boolean @default(false)
 }
 
+model friendsExcept {
+  id        String  @id @default(uuid())
+  user      User    @relation("userId", fields: [userId], references: [id])
+  userId    String
+  friends   User    @relation("friendsId", fields: [friendsId], references: [id])
+  friendsId String
+  isdeleted Boolean @default(false)
+
+  @@unique([userId, friendsId])
+}
+
 enum genderType {
   MALE
   FEMALE
@@ -271,6 +284,7 @@ enum privacy {
   CUSTOM
   FRIENDS
   ONLY_ME
+  FRIENDS_EXCEPT
 }
 
 enum reactionType {

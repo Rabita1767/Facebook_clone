@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "privacy" ADD VALUE 'FRIENDS_EXCEPT';
