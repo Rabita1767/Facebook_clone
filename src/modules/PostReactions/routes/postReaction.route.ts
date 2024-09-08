@@ -1,7 +1,6 @@
 import express from "express";
-import postController from "../../Post/controllers/post.controller";
 import postReactionController from "../controllers/postReaction.controller";
+import auth from "../../Auth/middlewares/auth.middleware";
 const routes = express();
-routes.post("/givePostReaction", postReactionController.givePostReaction);
-routes.get("/givePostReaction", postReactionController.givePostReaction);
+routes.post("/givePostReaction", auth.Auth, postReactionController.givePostReaction);
 export default routes;

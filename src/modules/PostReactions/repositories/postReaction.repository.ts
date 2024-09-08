@@ -1,14 +1,12 @@
 import { prisma } from "../../../config/prisma";
 
 class postReactionRepository {
-  public async givePostReaction(payload) {
-    const { postId, reactedBy, type, postedBy } = payload;
+  public async givePostReaction(userId, data) {
     return await prisma.postReactions.create({
       data: {
-        reactedBy: payload.reactedBy,
-        postedBy: payload.postedBy,
-        type: payload.type,
-        postId: payload.postId,
+        reactedBy: userId,
+        postId: data.postId,
+        type: data.type
       },
     });
   }

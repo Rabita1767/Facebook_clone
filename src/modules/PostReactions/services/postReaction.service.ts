@@ -1,13 +1,14 @@
 import BadRequestError from "../../../common/errors/http400Error";
+import { message } from "../../../common/message";
 import postReactionRepository from "../repositories/postReaction.repository";
 
 class postReactionService {
-  public async givePostReaction(payload) {
-    const givePostReaction = await postReactionRepository.givePostReaction(
-      payload
+  public async givePostReaction(userId, data) {
+    const givePostReaction = await postReactionRepository.givePostReaction(userId,
+      data
     );
     if (!givePostReaction) {
-      throw new BadRequestError("Something went wrong!Please Try again later");
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
     }
     return givePostReaction;
   }
