@@ -34,5 +34,8 @@ export const message = {
   REACTION_GIVEN_SUCCESSFULLY: "Reaction given successfully!",
   REACTION_REMOVED_SUCCESSFULLY: "Reaction removed successfully",
   REACTIONS_FETCHED_SUCCESSFULLY: "Reactions fetched successfully",
+  COMMENT_CREATED_SUCCESSFULLY: "Comment created successfully",
+  REPLY_CREATED_SUCCESSFULLY: "Reply created successfully",
+  COMMENT_NOT_FOUND: "Comment not found",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };

@@ -1,33 +1,38 @@
 import { error } from "console";
 import commentsRepository from "../repositories/comments.repository";
 import BadRequestError from "../../../common/errors/http400Error";
+import NotFoundError from "../../../common/errors/http404Error";
 import postRepository from "../../Post/repositories/post.repository";
 import userRepository from "../../User/repositories/user.repository";
+import { message } from "../../../common/message";
 
 class CommentService {
-  public async createComment(payload) {
-    const { postId, userId, parentCommentId, content } = payload;
-    const findPostByPostId = await postRepository.findPostById(postId);
+  public async createComment(userId, data) {
+    const findPostByPostId = await postRepository.findPostById(data.postId);
     if (!findPostByPostId) {
-      throw new BadRequestError("Post not found");
+      throw new NotFoundError(message.POST_NOT_FOUND);
     }
-    const findUserById = await userRepository.findUserById(userId);
-    if (!findUserById) {
-      throw new BadRequestError("User not found!");
-    }
-    if (parentCommentId) {
-      const findParentComment = await commentsRepository.findCommentById(
-        parentCommentId
-      );
-      if (!findParentComment) {
-        throw new BadRequestError("Comment does not exist!");
-      }
-    }
-    const createComment = await commentsRepository.createComment(payload);
+    const createComment = await commentsRepository.createComment(userId, data);
     if (!createComment) {
-      throw new BadRequestError("Something went wrong!");
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
     }
     return createComment;
+  }
+  public async createCommentReply(userId, data) {
+    const findCommentById = await commentsRepository.findCommentById(
+      data.parentCommentId
+    );
+    if (!findCommentById) {
+      throw new NotFoundError(message.COMMENT_NOT_FOUND);
+    }
+    const createCommentReply = await commentsRepository.createCommentReply(
+      userId,
+      data
+    );
+    if (!createCommentReply) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    return createCommentReply;
   }
   public async getAllComments(payload) {
     const getAllComments = await commentsRepository.getAllComments(payload);
