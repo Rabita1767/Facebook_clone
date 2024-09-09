@@ -6,74 +6,83 @@ class postReactionRepository {
       data: {
         reactedBy: userId,
         postId: data.postId,
-        type: data.type
+        type: data.type,
       },
     });
   }
-  public async getAllPostReaction(payload) {
-    const { postId } = payload;
-    return await prisma.postReactions.findMany({
+  public async removePostReaction(userId, postId) {
+    return await prisma.postReactions.update({
       where: {
-        postId: payload.postId,
+        reactedBy: userId,
+        postId: postId,
+      },
+      data: {
+        isDeleted: true,
       },
     });
   }
-  public async getAllLikes(payload) {
-    const { postId } = payload;
+  public async getAllPostReaction(postId) {
     return await prisma.postReactions.findMany({
       where: {
-        postId: payload.postId,
+        postId: postId,
+      },
+    });
+  }
+  public async getAllLikes(postId) {
+    return await prisma.postReactions.findMany({
+      where: {
+        postId: postId,
         type: "LIKE",
       },
     });
   }
-  public async getAllHearts(payload) {
+  public async getAllHearts(postId) {
     return await prisma.postReactions.findMany({
       where: {
-        postId: payload.postId,
+        postId: postId,
         type: "LOVE",
       },
     });
   }
-  public async getAllHaha(payload) {
+  public async getAllHaha(postId) {
     return await prisma.postReactions.findMany({
       where: {
-        postId: payload.postId,
+        postId: postId,
         type: "HAHA",
       },
     });
   }
-  public async getAllWow(payload) {
+  public async getAllWow(postId) {
     return await prisma.postReactions.findMany({
       where: {
-        postId: payload.postId,
+        postId: postId,
         type: "WOW",
       },
     });
   }
-  public async getAllCare(payload) {
+  public async getAllCare(postId) {
     return await prisma.postReactions.findMany({
       where: {
-        postId: payload.postId,
-        type: "CARE"
-      }
-    })
+        postId: postId,
+        type: "CARE",
+      },
+    });
   }
-  public async getAllAngry(payload) {
+  public async getAllAngry(postId) {
     return await prisma.postReactions.findMany({
       where: {
-        postId: payload.postId,
-        type: "ANGRY"
-      }
-    })
+        postId: postId,
+        type: "ANGRY",
+      },
+    });
   }
-  public async getAllSad(payload) {
+  public async getAllSad(postId) {
     return await prisma.postReactions.findMany({
       where: {
-        postId: payload.postId,
-        type: "SAD"
-      }
-    })
+        postId: postId,
+        type: "SAD",
+      },
+    });
   }
 }
 export default new postReactionRepository();

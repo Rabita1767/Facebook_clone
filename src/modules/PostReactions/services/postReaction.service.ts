@@ -4,7 +4,8 @@ import postReactionRepository from "../repositories/postReaction.repository";
 
 class postReactionService {
   public async givePostReaction(userId, data) {
-    const givePostReaction = await postReactionRepository.givePostReaction(userId,
+    const givePostReaction = await postReactionRepository.givePostReaction(
+      userId,
       data
     );
     if (!givePostReaction) {
@@ -12,32 +13,41 @@ class postReactionService {
     }
     return givePostReaction;
   }
-  public async getAllPostReaction(payload) {
-    const getAllPostReaction = await postReactionRepository.getAllPostReaction(
-      payload
+  public async removePostReaction(userId, data) {
+    const removePostReaction = await postReactionRepository.removePostReaction(
+      userId,
+      data.postId
     );
-    const getAllLikes = await postReactionRepository.getAllLikes(payload);
-    const getAllHearts = await postReactionRepository.getAllHearts(payload);
-    const getAllHaha = await postReactionRepository.getAllHaha(payload);
-    const getAllWow = await postReactionRepository.getAllWow(payload);
-    const getAllCare = await postReactionRepository.getAllCare(payload);
-    const getAllAngry = await postReactionRepository.getAllAngry(payload);
-    const getAllSad = await postReactionRepository.getAllSad(payload);
-
-    if (getAllPostReaction.length > 0) {
-      return {
-        totalReactions: getAllPostReaction,
-        totalLikes: getAllLikes,
-        totalHearts: getAllHearts,
-        totalHaha: getAllHaha,
-        totalWow: getAllWow,
-        totalCare: getAllCare,
-        totalAngry: getAllAngry,
-        totalSad: getAllSad
-      };
-    } else {
-      throw new BadRequestError("No posts found!");
+    if (!removePostReaction) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
     }
+    return removePostReaction;
+  }
+  public async getAllPostReaction(data) {
+    const getAllPostReaction = await postReactionRepository.getAllPostReaction(
+      data.postId
+    );
+    const getAllLikes = await postReactionRepository.getAllLikes(data.postId);
+    const getAllHearts = await postReactionRepository.getAllHearts(data.postId);
+    const getAllHaha = await postReactionRepository.getAllHaha(data.postId);
+    const getAllWow = await postReactionRepository.getAllWow(data.postId);
+    const getAllCare = await postReactionRepository.getAllCare(data.postId);
+    const getAllAngry = await postReactionRepository.getAllAngry(data.postId);
+    const getAllSad = await postReactionRepository.getAllSad(data.postId);
+
+    if (!getAllPostReaction) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    return {
+      totalReactions: getAllPostReaction,
+      totalLikes: getAllLikes,
+      totalHearts: getAllHearts,
+      totalHaha: getAllHaha,
+      totalWow: getAllWow,
+      totalCare: getAllCare,
+      totalAngry: getAllAngry,
+      totalSad: getAllSad,
+    };
   }
 }
 export default new postReactionService();

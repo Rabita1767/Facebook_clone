@@ -158,6 +158,7 @@ model PostReactions {
   // postedBy  String       @unique
   type      reactionType
   postId    String
+  isDeleted Boolean      @default(false)
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
 }

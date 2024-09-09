@@ -8,11 +8,33 @@ class PostReactionController {
   public async givePostReaction(req: Request, res: Response): Promise<void> {
     try {
       const givePostReaction = await postReactionService.givePostReaction(
-        req.userId, req.body
+        req.userId,
+        req.body
       );
-      return sendResponse(res, HttpStatus.OK, message.REACTION_GIVEN_SUCCESSFULLY, givePostReaction
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.REACTION_GIVEN_SUCCESSFULLY,
+        givePostReaction
       );
     } catch (error) {
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
+  public async removePostReaction(req: Request, res: Response): Promise<void> {
+    try {
+      const removePostReaction = await postReactionService.removePostReaction(
+        req.userId,
+        req.body
+      );
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.REACTION_REMOVED_SUCCESSFULLY,
+        removePostReaction
+      );
+    } catch (error) {
+      console.log(error);
       return sendResponse(res, error.statusCode, error);
     }
   }
@@ -21,9 +43,12 @@ class PostReactionController {
       const getAllPostReaction = await postReactionService.getAllPostReaction(
         req.body
       );
-      return sendResponse(res, HttpStatus.OK, "Data fetched successfully", {
-        result: getAllPostReaction,
-      });
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.REACTIONS_FETCHED_SUCCESSFULLY,
+        getAllPostReaction
+      );
     } catch (error) {
       return sendResponse(res, error.statusCode, error);
     }
