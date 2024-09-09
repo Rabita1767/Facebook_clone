@@ -42,11 +42,13 @@ class CommentController {
   }
   public async getAllComments(req: Request, res: Response): Promise<void> {
     try {
-      await postService.findPostByPostId(req.body);
       const getAllComments = await commentsService.getAllComments(req.body);
-      return sendResponse(res, HttpStatus.OK, "Comments found successfully!", {
-        result: getAllComments,
-      });
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.COMMENTS_FETCHED_SUCCESSFULLY,
+        getAllComments
+      );
     } catch (error) {
       console.log(error);
       return sendResponse(res, error.statusCode, error);
@@ -55,6 +57,12 @@ class CommentController {
   public async getAllReplies(req: Request, res: Response): Promise<void> {
     try {
       const getAllReplies = await commentsService.getAllReplies(req.body);
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.COMMENTS_FETCHED_SUCCESSFULLY,
+        getAllReplies
+      );
     } catch (error) {
       console.log(error);
       return sendResponse(res, error.statusCode, error);

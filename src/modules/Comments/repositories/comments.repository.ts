@@ -27,17 +27,15 @@ class CommentRepository {
       },
     });
   }
-  public async getAllComments(payload) {
-    const { postId } = payload;
+  public async getAllComments(postId) {
     return await prisma.comment.findMany({
       where: {
-        id: postId,
+        postId: postId,
         parentCommentId: null,
       },
     });
   }
-  public async getAllReplies(payload) {
-    const { parentCommentId } = payload;
+  public async getAllReplies(parentCommentId) {
     return await prisma.comment.findMany({
       where: {
         parentCommentId: parentCommentId,

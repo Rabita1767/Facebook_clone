@@ -34,19 +34,21 @@ class CommentService {
     }
     return createCommentReply;
   }
-  public async getAllComments(payload) {
-    const getAllComments = await commentsRepository.getAllComments(payload);
-    if (getAllComments.length == 0) {
-      throw new BadRequestError("No comments found!");
+  public async getAllComments(data) {
+    const getAllComments = await commentsRepository.getAllComments(data.postId);
+    if (!getAllComments) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
     }
     return getAllComments;
   }
-  public async getAllReplies(payload) {
-    const findCommentById = await commentsRepository.findCommentById(payload);
-    if (!findCommentById) {
-      throw new BadRequestError("Comment does not exist!");
+  public async getAllReplies(data) {
+    const getAllReplies = await commentsRepository.getAllReplies(
+      data.parentCommentId
+    );
+    if (!getAllReplies) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
     }
-    const getAllReplies = await commentsRepository.getAllReplies(payload);
+    return getAllReplies;
   }
 }
 export default new CommentService();

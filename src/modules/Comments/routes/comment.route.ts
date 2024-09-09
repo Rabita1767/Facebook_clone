@@ -8,6 +8,6 @@ routes.post(
   auth.Auth,
   commentsController.createCommentReply
 );
-routes.get("/getAllComments", commentsController.getAllComments);
-routes.get("/getAllReplies", commentsController.getAllReplies);
+routes.get("/getAllComments", auth.Auth, commentsController.getAllComments);
+routes.get("/getAllReplies", auth.Auth, commentsController.getAllReplies);
 export default routes;

@@ -37,5 +37,6 @@ export const message = {
   COMMENT_CREATED_SUCCESSFULLY: "Comment created successfully",
   REPLY_CREATED_SUCCESSFULLY: "Reply created successfully",
   COMMENT_NOT_FOUND: "Comment not found",
+  COMMENTS_FETCHED_SUCCESSFULLY: "Comments fetched successfully",
   SOMETHING_WENT_WRONG: "Something went wrong!",
 };
