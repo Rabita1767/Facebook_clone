@@ -177,13 +177,14 @@ model Comment {
 }
 
 model commentReactions {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [reactedBy], references: [id])
-  reactedBy String   @unique
-  comment   Comment  @relation(fields: [commentId], references: [id])
-  commentId String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String       @id @default(uuid())
+  user         User         @relation(fields: [reactedBy], references: [id])
+  reactedBy    String       @unique
+  comment      Comment      @relation(fields: [commentId], references: [id])
+  commentId    String       @unique
+  reactionType reactionType
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 }
 
 model Story {
