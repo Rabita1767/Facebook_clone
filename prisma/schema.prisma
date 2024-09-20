@@ -183,6 +183,7 @@ model commentReactions {
   comment      Comment      @relation(fields: [commentId], references: [id])
   commentId    String       @unique
   reactionType reactionType
+  isDeleted    Boolean      @default(false)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
