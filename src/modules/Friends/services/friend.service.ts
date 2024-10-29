@@ -2,6 +2,7 @@ import BadRequestError from "../../../common/errors/http400Error";
 import { message } from "../../../common/message";
 import userRepository from "../../User/repositories/user.repository";
 import friendRepository from "../repositories/friend.repository";
+import redisClient from "../../../redisClient";
 class FriendService {
   public async sendFriendRequest(data, userId1) {
     const findReceiver = await userRepository.findUserById(data.userId2);
@@ -93,11 +94,16 @@ class FriendService {
     return acceptFriendRequest;
   }
   public async getAllFriends(userId) {
-    const getAllFriends = await friendRepository.getAllFriends(userId);
-    if (!getAllFriends) {
-      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    const catchedData = await redisClient.get("getAllFriends");
+    if (!catchedData) {
+      const getAllFriends = await friendRepository.getAllFriends(userId);
+      if (!getAllFriends) {
+        throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+      }
+      await redisClient.set("getAllFriends", JSON.stringify(getAllFriends));
+      return getAllFriends;
     }
-    return getAllFriends;
+    return JSON.parse(catchedData);
   }
   public async cancelRequest(data, userId) {
     const findRequest = await friendRepository.findRequest(data, userId);
