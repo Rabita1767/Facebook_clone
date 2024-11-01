@@ -7,3 +7,8 @@ routes.post(
   auth.Auth,
   commentReactionController.giveCommentReaction
 );
+routes.post(
+  "/removeCommentReaction",
+  auth.Auth,
+  commentReactionController.removeCommentReaction
+);

@@ -10,5 +10,16 @@ class CommentReactionRepository {
       },
     });
   }
+  public async removeCommentReaction(userId, commentId) {
+    return await prisma.commentReactions.update({
+      where: {
+        reactedBy: userId,
+        commentId: commentId,
+      },
+      data: {
+        isDeleted: true,
+      },
+    });
+  }
 }
 export default new CommentReactionRepository();

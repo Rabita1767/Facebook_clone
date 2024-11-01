@@ -19,5 +19,17 @@ class CommentReactionService {
     }
     return giveCommentReaction;
   }
+  async removeCommentReaction(userId, data) {
+    const findCommentById = await commentsRepository.findCommentById(
+      data.commentId
+    );
+    if (!findCommentById) {
+      throw new BadRequestError(message.COMMENT_NOT_FOUND);
+    }
+    await commentReactionRepository.removeCommentReaction(
+      userId,
+      data.commentId
+    );
+  }
 }
 export default new CommentReactionService();
