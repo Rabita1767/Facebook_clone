@@ -1,4 +1,6 @@
 import express from "express";
+import { Server } from "socket.io";
+import { createServer } from "http";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoute from "../src/modules/Auth/routes/auth.route";
@@ -9,6 +11,13 @@ import postReactionRoute from "../src/modules/PostReactions/routes/postReaction.
 import commentRoute from "../src/modules/Comments/routes/comment.route";
 dotenv.config();
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+
+})
+io.on("connection", (socket) => {
+
+})
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.text());

@@ -55,6 +55,8 @@ model User {
   friendRequestPrivacy        friendRequestPrivacy          @default(PUBLIC)
   friendsExceptUserId         friendsExcept[]               @relation("userId")
   friendsExceptFriendsId      friendsExcept[]               @relation("friendsId")
+  sendNotification            Notification[]                @relation("senderId")
+  receiveNotification         Notification[]                @relation("receiverId")
 }
 
 model ProfileInformationBasic {
@@ -218,12 +220,16 @@ model BlockList {
 }
 
 model Notification {
-  id        String   @id @default(uuid())
-  content   String
-  isRead    Boolean  @default(false)
-  isDeleted Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  senderId   User     @relation("senderId", fields: [userId1], references: [id])
+  receiverId User     @relation("receiverId", fields: [userId2], references: [id])
+  content    String
+  isRead     Boolean  @default(false)
+  isDeleted  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  userId1    String
+  userId2    String
 }
 
 model Share {
