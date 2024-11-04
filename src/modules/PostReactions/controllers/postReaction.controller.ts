@@ -11,6 +11,7 @@ class PostReactionController {
         req.userId,
         req.body
       );
+
       return sendResponse(
         res,
         HttpStatus.OK,
@@ -18,6 +19,7 @@ class PostReactionController {
         givePostReaction
       );
     } catch (error) {
+      console.log(error);
       return sendResponse(res, error.statusCode, error);
     }
   }

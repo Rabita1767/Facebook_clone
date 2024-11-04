@@ -10,11 +10,11 @@ class postReactionRepository {
       },
     });
   }
-  public async removePostReaction(userId, postId) {
+  public async removePostReaction(userId, id) {
     return await prisma.postReactions.update({
       where: {
         reactedBy: userId,
-        postId: postId,
+        id: id,
       },
       data: {
         isDeleted: true,

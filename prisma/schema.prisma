@@ -155,7 +155,7 @@ model Post {
 model PostReactions {
   id        String       @id @default(uuid())
   user      User         @relation(fields: [reactedBy], references: [id])
-  reactedBy String       @unique
+  reactedBy String
   post      Post         @relation(fields: [postId], references: [id])
   // postedBy  String       @unique
   type      reactionType
