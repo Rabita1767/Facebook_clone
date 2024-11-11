@@ -84,16 +84,16 @@ const authValidator = {
       .withMessage(
         "Password must contain at least 8 characters with 1 lower case, 1 upper case, 1 number, 1 symbol"
       ),
-    body("confirmPassword")
-      .exists()
-      .withMessage("Password is required")
-      .bail()
-      .custom((value, { req }) => {
-        if (value !== req.body.password) {
-          throw new Error("Passwords don't match!");
-        }
-        return true;
-      }),
+    // body("confirmPassword")
+    //   .exists()
+    //   .withMessage("Password is required")
+    //   .bail()
+    //   .custom((value, { req }) => {
+    //     if (value !== req.body.password) {
+    //       throw new Error("Passwords don't match!");
+    //     }
+    //     return true;
+    //   }),
     (req: Request, res: Response, next: NextFunction) => {
       const errors: any = validationResult(req);
       if (!errors.isEmpty()) {
@@ -107,15 +107,6 @@ const authValidator = {
       }
       next();
     },
-    // (req: Request, res: Response, next: NextFunction) => {
-    //   const errors: any = validationResult(req);
-    //   if (!errors.isEmpty()) {
-    //     return next(
-    //       new RequestValidationError("Validation error occured", errors.errors)
-    //     );
-    //   }
-    //   next();
-    // },
   ],
 };
 export default authValidator;

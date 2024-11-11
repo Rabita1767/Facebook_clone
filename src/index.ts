@@ -19,7 +19,8 @@ export const io = new Server(socketServer, {
     origin: "*",
   },
 });
-io.of("/testing").on("connection", SocketGateway);
+// io.of("/testing").on("connection", SocketGateway);
+io.on("connection", SocketGateway);
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.text());

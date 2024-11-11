@@ -9,9 +9,7 @@ class AuthController {
   public async signup(req: Request, res: Response): Promise<void> {
     try {
       const createAuth = await authService.createAuth(req.body);
-      return sendResponse(res, HttpStatus.OK, "Signup successful!", {
-        result: createAuth,
-      });
+      return sendResponse(res, HttpStatus.OK, "Signup successful!", createAuth);
     } catch (error) {
       console.log(error);
       return sendResponse(res, error.statusCode, error);
@@ -26,7 +24,7 @@ class AuthController {
       const refreshToken = await utility.generateRefreshToken(user);
       refreshTokens.push(refreshToken);
       return sendResponse(res, HttpStatus.OK, "Login successful!", {
-        result: user,
+        ...user,
         accessToken: accessToken,
         refreshToken: refreshToken,
       });

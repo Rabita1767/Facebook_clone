@@ -14,6 +14,7 @@ class AuthService {
     const fullName = user.fName + " " + user.lName;
     user.name = fullName;
     user.password = hashedPassword;
+    user.gender = user.gender.toUpperCase();
     const createAuth = await AuthRepository.createAuth(user);
     const createUser = await userRepository.createUser(createAuth.id);
     const createBasicInfo = await basicProfileInfoRepository.createBasicInfo(

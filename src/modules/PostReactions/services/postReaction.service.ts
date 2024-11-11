@@ -13,16 +13,17 @@ class postReactionService {
     if (!givePostReaction) {
       throw new BadRequestError(message.SOMETHING_WENT_WRONG);
     }
-    const findPostById = await postRepository.findPostById(
-      givePostReaction.postId
-    );
-    const postOwnerId = findPostById.userId;
-    io.to(postOwnerId).emit("postReaction", {
-      message: "Your post received a new reaction!",
-      postId: givePostReaction.postId,
-      reactedBy: userId,
-    });
-    console.log("givePostReaction", findPostById);
+    // io.emit("give_post_reaction", givePostReaction);
+    // const findPostById = await postRepository.findPostById(
+    //   givePostReaction.postId
+    // );
+    // const postOwnerId = findPostById.userId;
+    // io.to(postOwnerId).emit("postReaction", {
+    //   message: "Your post received a new reaction!",
+    //   postId: givePostReaction.postId,
+    //   reactedBy: userId,
+    // });
+    // console.log("givePostReaction", findPostById);
     return givePostReaction;
   }
   public async removePostReaction(userId, data) {
