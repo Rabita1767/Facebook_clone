@@ -75,7 +75,7 @@ class FriendRepository {
     return await prisma.friends.findMany({
       where: {
         OR: [{ userId1: userId }, { userId2: userId }],
-        requestAccepted: true
+        requestAccepted: true,
       },
     });
   }
@@ -133,6 +133,22 @@ class FriendRepository {
             requestAccepted: true,
           },
         ],
+      },
+    });
+  }
+  public async findFriendsByUserId1(userId) {
+    return await prisma.friends.findMany({
+      where: {
+        userId2: userId,
+        requestAccepted: true,
+      },
+    });
+  }
+  public async findFriendsByUserId2(userId) {
+    return await prisma.friends.findMany({
+      where: {
+        userId1: userId,
+        requestAccepted: true,
       },
     });
   }

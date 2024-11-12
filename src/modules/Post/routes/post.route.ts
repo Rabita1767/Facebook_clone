@@ -13,5 +13,6 @@ routes.put("/updatePost", postController.updatePost);
 routes.patch("/setPostPrivacy", postController.setPostPrivacy);
 routes.get("/getPostsById", auth.Auth, postController.getPostsById);
 routes.delete("/removePostById", auth.Auth, postController.removePostById);
+routes.get("/getNewsfeedUpdates", auth.Auth, postController.getNewsfeedUpdates);
 
 export default routes;

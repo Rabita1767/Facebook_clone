@@ -64,13 +64,17 @@ class postService {
       data.userId
     );
     if (findIfFriends !== null) {
-      const getAllFriendsExcept = await friendsExceptRepository.getAllFriendsExceptList(data.userId);
+      const getAllFriendsExcept =
+        await friendsExceptRepository.getAllFriendsExceptList(data.userId);
       const getAllFriends = await friendRepository.getAllFriends(data.userId);
-      const friendIds = getAllFriends.map(item => item.id);
-      const frindsExceptIds = getAllFriendsExcept.map(item => item.id);
-      const filteredFriendIds = friendIds.filter(id => !frindsExceptIds.includes(id));
+      const friendIds = getAllFriends.map((item) => item.id);
+      const frindsExceptIds = getAllFriendsExcept.map((item) => item.id);
+      const filteredFriendIds = friendIds.filter(
+        (id) => !frindsExceptIds.includes(id)
+      );
       if (filteredFriendIds.includes(userId)) {
-        const getPostsByIdFriendsExcept = await postRepository.getPostsByIdFriendsExcept(data.userId);
+        const getPostsByIdFriendsExcept =
+          await postRepository.getPostsByIdFriendsExcept(data.userId);
         if (!getPostsByIdFriendsExcept) {
           throw new BadRequestError(message.SOMETHING_WENT_WRONG);
         }
@@ -114,6 +118,32 @@ class postService {
       );
     }
     return removePostById;
+  }
+  public async getNewsfeedUpdates(userId, data) {
+    const findFriendsByUserId1 = await friendRepository.findFriendsByUserId1(
+      userId
+    );
+    const findFriendsByUserId2 = await friendRepository.findFriendsByUserId2(
+      userId
+    );
+    console.log("findFriendsByUserId1", findFriendsByUserId1);
+    console.log("findFriendsByUserId2", findFriendsByUserId2);
+    if (!findFriendsByUserId1 || !findFriendsByUserId2) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    const friendList1 =
+      findFriendsByUserId1 ?? [].map((friend) => friend.userId1);
+    const friendList2 =
+      findFriendsByUserId2 ?? [].map((friend) => friend.userId2);
+    const friendList = friendList1.concat(friendList2);
+    console.log("friendList", friendList);
+    const getNewsfeedUpdates = await postRepository.getNewsfeedUpdates(
+      friendList
+    );
+    if (!getNewsfeedUpdates) {
+      throw new BadRequestError(message.SOMETHING_WENT_WRONG);
+    }
+    return getNewsfeedUpdates;
   }
 }
 export default new postService();

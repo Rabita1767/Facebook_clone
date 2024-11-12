@@ -75,5 +75,22 @@ class PostController {
       return sendResponse(res, error.statusCode, error);
     }
   }
+  public async getNewsfeedUpdates(req: Request, res: Response): Promise<void> {
+    try {
+      const getNewsfeedUpdates = await postService.getNewsfeedUpdates(
+        req.userId,
+        req.body
+      );
+      return sendResponse(
+        res,
+        HttpStatus.OK,
+        message.DATA_FETCHED_SUCCESSFULLY,
+        getNewsfeedUpdates
+      );
+    } catch (error) {
+      console.log(error);
+      return sendResponse(res, error.statusCode, error);
+    }
+  }
 }
 export default new PostController();

@@ -153,10 +153,20 @@ class postRepository {
       where: {
         userId: userId,
         privacy: {
-          in: ["PUBLIC", "FRIENDS_EXCEPT", "FRIENDS", "FRIENDS_OF_FRIENDS"]
-        }
-      }
-    })
+          in: ["PUBLIC", "FRIENDS_EXCEPT", "FRIENDS", "FRIENDS_OF_FRIENDS"],
+        },
+      },
+    });
+  }
+  public async getNewsfeedUpdates(friendList) {
+    return await prisma.post.findMany({
+      where: {
+        userId: {
+          in: friendList,
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
   }
 }
 export default new postRepository();
