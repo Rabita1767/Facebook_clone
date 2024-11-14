@@ -16,7 +16,8 @@ class postRepository {
   }
   public async createPost(userId, payload, files = []) {
     console.log("repository layer", files);
-    const mediaFiles = files.map((files) => files.filename);
+    const mediaFiles = files.map((file) => file.path || file.url);
+    console.log("mediaFiles", mediaFiles);
     return prisma.post.create({
       data: {
         userId: userId,
@@ -88,7 +89,7 @@ class postRepository {
     return await prisma.post.create({
       data: {
         userId: userId,
-        media: file.filename,
+        media: file.path || file.url,
         content: data.content,
       },
     });
@@ -164,8 +165,19 @@ class postRepository {
         userId: {
           in: friendList,
         },
+        isDeleted: false,
       },
       orderBy: { createdAt: "desc" },
+      include: {
+        user: {
+          include: {
+            auth: true,
+            profilePicture: true,
+          },
+        },
+        PostReactions: true,
+        Comment: true,
+      },
     });
   }
 }

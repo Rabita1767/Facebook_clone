@@ -119,7 +119,7 @@ class postService {
     }
     return removePostById;
   }
-  public async getNewsfeedUpdates(userId, data) {
+  public async getNewsfeedUpdates(userId) {
     const findFriendsByUserId1 = await friendRepository.findFriendsByUserId1(
       userId
     );
@@ -131,10 +131,8 @@ class postService {
     if (!findFriendsByUserId1 || !findFriendsByUserId2) {
       throw new BadRequestError(message.SOMETHING_WENT_WRONG);
     }
-    const friendList1 =
-      findFriendsByUserId1 ?? [].map((friend) => friend.userId1);
-    const friendList2 =
-      findFriendsByUserId2 ?? [].map((friend) => friend.userId2);
+    const friendList1 = findFriendsByUserId1.map((friend) => friend.userId1);
+    const friendList2 = findFriendsByUserId2.map((friend) => friend.userId2);
     const friendList = friendList1.concat(friendList2);
     console.log("friendList", friendList);
     const getNewsfeedUpdates = await postRepository.getNewsfeedUpdates(

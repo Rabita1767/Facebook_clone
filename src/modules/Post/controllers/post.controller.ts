@@ -13,9 +13,7 @@ class PostController {
         req.files
       );
       console.log("check file", req.files);
-      return sendResponse(res, HttpStatus.OK, "Post created!", {
-        result: createPost,
-      });
+      return sendResponse(res, HttpStatus.OK, "Post created!", createPost);
     } catch (error) {
       console.log(error);
       return sendResponse(res, error.statusCode, error);
@@ -78,8 +76,7 @@ class PostController {
   public async getNewsfeedUpdates(req: Request, res: Response): Promise<void> {
     try {
       const getNewsfeedUpdates = await postService.getNewsfeedUpdates(
-        req.userId,
-        req.body
+        req.userId
       );
       return sendResponse(
         res,
